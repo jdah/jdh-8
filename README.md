@@ -57,6 +57,11 @@ F (7): flags (LSB to MSB)
 See [the spec](SPEC.txt) for more information.
 
 ## Toolchain
+Compile with `make`
+
+**Please note** that this software requires POSIX headers/compliance from the host system.  
+Good luck compiling on Windows.
+
 ### **Assembler** ([`asm`](./asm))
 `./bin/asm [-h] [--help] [-v] [--verbose] [-n] [--no-builtin-macros] [-o file] file`
 
