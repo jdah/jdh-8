@@ -55,3 +55,25 @@ F (7): flags (LSB to MSB)
 ```
 
 See [the spec](SPEC.txt) for more information.
+
+## Toolchain
+### **Assembler** ([`asm`](./asm))
+`./bin/asm [-h] [--help] [-v] [--verbose] [-n] [--no-builtin-macros] [-o file] file`
+
+### **Emulator** ([`emu`](./emu))
+`./bin/emu [-m/--mod module] [-r/--run] [-l/--load file address] [ROM file]`
+#### Commands
+- `SET <register> <data>`: set register data
+- `GET <register>`: get register value
+- `PEEK <address>`: get memory value
+- `POKE <address> <data>`: set memory data
+- `INB <port>`: get port data
+- `OUTB <port> <data>`: write port data
+- `STEP`: step one instruction
+- `DUMP`: print current machine state
+- `LOAD <ROM file> <address>`: load ROM at address
+- `MODS`: list modules
+- `MOD <module>`: load module
+- `DEVICES`: list devices
+- `RUN <speed?>`: run at speed (hz) until halt
+- `QUIT`: quit
