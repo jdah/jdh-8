@@ -1,3 +1,11 @@
+asm/builtin_macros.c
+
+# binaries
+bin/
+
+# asm out files
+*.bin
+
 # Prerequisites
 *.d
 

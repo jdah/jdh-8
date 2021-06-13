@@ -1,0 +1,107 @@
+==============
+= JDH-8 SPEC =
+==============
+
+TODO: insert a description here
+
+GENERAL
+- Little endian
+- 8-bit processor
+- 16-bit address bus (64k RAM! maybe more with banking?)
+- Device communication via inb/outb
+
+=== INSTRUCTIONS ===
+0: MW   reg, imm8/reg   -> reg = imm8/reg
+1: LW   reg, [HL/imm16] -> reg = [HL/imm16]
+2: SW   [HL/imm16], reg -> [HL/imm16] = reg
+3: PUSH imm8/reg        -> [SP--] = imm8/reg
+4: POP  reg             -> reg = [++SP]
+5: LDA  [imm16]         -> HL = imm16
+6: JNZ  imm8/reg        -> imm8/reg != 0 ? PC = HL : NOP
+7: INB  reg, imm8/reg   -> reg = PORT[imm8/reg]
+8: OUTB imm8/reg, reg   -> PORT[imm8/reg] = reg
+9: ADD* reg, imm8/reg   -> reg = reg + imm8/reg
+A: ADC* reg, imm8/reg   -> reg = reg + imm8/reg + c
+B: AND  reg, imm8/reg   -> reg = reg & imm8/reg
+C: OR   reg, imm8/reg   -> reg = reg | imm8/reg
+D: NOR  reg, imm8/reg   -> reg = ~(reg | imm8/reg)
+E: CMP* reg, imm8/reg   -> reg = reg + imm8/reg
+F: SBB* reg, imm8/reg   -> reg = reg - imm8/reg - b
+
+*these instructions load the carry/borrow bits in the (F)lags register
+
+=== REGISTERS ===
+A (0): GP register/arg 0
+B (1): GP register/arg 1
+C (2): GP register/arg 2
+D (3): GP register/arg 3
+L (4): GP register/(L)ow index register
+H (5): GP register/(H)igh index register
+Z (6): GP register/return value
+F (7): flags (LSB to MSB)
+    LESS
+    EQUAL
+    CARRY
+    BORROW
+
+=== INSTRUCTION LAYOUT ===
+Instruction layout is XXXXYZZZ where
+X: 4-bit instruction identifier (see INSTRUCTIONS)
+Y: 0 if argument is imm(8/16), 1 if argument is reg
+Z: 3-bit register identifier of first register argument (see REGISTERS)
+
+- For LW/SW, the Y-bit indicates imm16 (0) and HL (1). Z-bits are ALWAYS reg.
+- Instructions can be 1-3 bytes long
+    - PUSH/POP with one register argument are one byte instructions
+    - LW/SW with Y=0 (imm16) are 3 bytes each
+    - LDA is always 3 bytes
+
+=== MEMORY LAYOUT ===
+0x0000..0x7FFF: GENERAL PURPOSE ROM
+0x8000..0xBFFF: GENERAL PURPOSE RAM (BANKED)
+0xC000..0xFDFF: GENERAL PURPOSE RAM
+0xFC00..0xFEFF: STACK (RECOMMENDED), else GP RAM
+0xFF00..0xFFF9: GENERAL PURPOSE RAM
+0xFFFA..0xFFFB: MB/(M)emory (B)ank
+0xFFFC..0xFFFD: SP/(S)tack (P)ointer
+0xFFFE..0xFFFF: PC/(P)rogram (C)ounter
+
+=== MEMORY BANKING ===
+0x8000..0xBFFF *CAN* be swapped using the MB register IF th CPU supports
+memory banking. Otherwise 0x8000..0xBFFF is treated as normal GP RAM.
+
+=== PORTS ===
+PORTS are used to communicate with devices or by the JDH-8 itself. See
+SPECIAL PORTS for a list of which ports are controlled by the JDH-8 and not
+external devices.
+
+=== SPECIAL PORTS ===
+0x00: STATUS
+
+=== STATUS REGISTER ===
+The status register can be read/written with PORT 0 using the INB and OUTB
+instructions. It contains control information about the current JDH-8 state.
+Its bits are as follows, from LSB to MSB:
+    UNUSED      (RW)
+    ERROR       (RO)
+    POWER       (RW)
+    HALT        (RW)
+
+
+mw b, 0xFF -> 0x01, 0xFF
+
+lw a, [(ADDR_BASE + 3)]
+
+SYMBOL(LW)
+SYMBOL(A)
+LBRACKET
+LPAREN
+SYMBOL(ADDR_BASE)
+PLUS
+NUMBER(3)
+RPAREN
+RBRACKET
+
+(10 + (5 * 2)) = 20
+
+(10 + 5 * 2) = 30
