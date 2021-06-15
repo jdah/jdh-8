@@ -57,8 +57,6 @@ struct Token {
     u64 flags;
 };
 
-const char TOKEN_VALUES[TK_COUNT];
-
 char *token_data(const struct Token *token, char *buf, usize n);
 char *token_line(const struct Token *token, char *buf, usize n);
 char *token_between(

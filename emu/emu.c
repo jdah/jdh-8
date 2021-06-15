@@ -2,10 +2,15 @@
 #include <limits.h>
 #include <errno.h>
 #include <unistd.h>
-#include <poll.h>
+#include <stdio.h>
 
-#include <readline/readline.h>
-#include <readline/history.h>
+#if defined(WIN32) || defined(_WIN32)
+	// Emu.h already includes win.h
+#else
+	#include <poll.h>
+	#include <readline/readline.h>
+	#include <readline/history.h>
+#endif
 
 #include "emu.h"
 
@@ -27,11 +32,11 @@ static int run(struct JDH8 *state, const char *speed, char *out, usize n) {
 
     if (speed != NULL) {
         if (!strcasecmp(speed, "realtime")) {
-            hz = 100000000; // 100 MHz (fastest possible)
+            hz = 1024*1024*100; // 100 MHz (fastest possible)
         } else if (!strcasecmp(speed, "fast")) {
-            hz = 2000000; // 2 MHz
+            hz = 1024*1024*2; // 2 MHz
         } else if (!strcasecmp(speed, "normal")) {
-            hz = 1000000; // 1 MHz
+            hz = 1024*1024; // 1 MHz
         } else if (!strcasecmp(speed, "slow")) {
             hz = 8192; // 8 KHz
         } else if (!strcasecmp(speed, "veryslow")) {

@@ -4,9 +4,15 @@
 
 #define NS_PER_SECOND 1000000000
 
+#if defined(WIN32) || defined(_WIN32)
+	#define MONO_CLOCK CLOCK_MONOTONIC
+#else
+	#define MONO_CLOCK _CLOCK_MONOTONIC_RAW
+#endif
+
 #define NOW() __extension__({                               \
         struct timespec ts;                                 \
-        assert(!clock_gettime(_CLOCK_MONOTONIC_RAW, &ts));  \
+        assert(!clock_gettime(MONO_CLOCK, &ts));  \
         ((ts.tv_sec * NS_PER_SECOND) + ts.tv_nsec);         \
     })
 
@@ -21,8 +27,8 @@
         } else { 0; }                                       \
     })
 
-// max speed 1 mhz
-#define SIMULATE_MAX_SPEED 1000000000
+// max speed 128 mhz
+#define SIMULATE_MAX_SPEED 1024*1024*128
 
 #define SIMULATE_TICK_NS (NS_PER_SECOND / 10000)
 
@@ -128,7 +134,7 @@ void dump(FILE *f, struct JDH8 *state) {
 
         fprintf(
             f,
-            "  (%lu) %s\n",
+            "  (%llu) %s\n",
             id, dev->name
         );
     }

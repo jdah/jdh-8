@@ -177,7 +177,7 @@ static inline void _assert(bool e, bool fatal, const char *file, usize line) {
     if (!e) {
         fprintf(
             stderr,
-            ANSI_RED "Assertion failed. (%s:%lu)" ANSI_RESET "\n",
+            ANSI_RED "Assertion failed. (%s:%llu)" ANSI_RESET "\n",
             file,
             line
         );

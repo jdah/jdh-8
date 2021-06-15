@@ -1,5 +1,9 @@
 #include <unistd.h>
-#include <sys/mman.h>
+#if defined(WIN32) || defined(_WIN32)
+	// Do nothing, emu.h already handles importing win.h in this case
+#else
+	#include <sys/mman.h>
+#endif
 #include <sys/types.h>
 #include <pthread.h>
 

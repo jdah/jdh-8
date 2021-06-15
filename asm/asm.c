@@ -123,7 +123,7 @@ void asmprint(
     }
 
     if (filename) {
-        snprintf(bs[0], sizeof(bs[0]), " (%s:%lu)", filename, line);
+        snprintf(bs[0], sizeof(bs[0]), " (%s:%llu)", filename, line);
     }
 
     if (fmt) {

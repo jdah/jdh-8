@@ -1,7 +1,7 @@
 #include "lex.h"
 #include "asm.h"
 
-const char TOKEN_VALUES[] = {
+const char TOKEN_VALUES[TK_COUNT] = {
     [TK_EOL]        = 0,
     [TK_SYMBOL]     = 0,
     [TK_NUMBER]     = 0,
