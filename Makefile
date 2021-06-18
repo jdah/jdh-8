@@ -1,8 +1,8 @@
-CC=clang
-LD=clang
 XXD=xxd
 
 ifneq ($(OS),Windows_NT)
+	CC=clang
+	LD=clang
 	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
 	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
@@ -11,7 +11,10 @@ ifneq ($(OS),Windows_NT)
 	EMULD=-lreadline -lsdl2 -lpthread
 	ASMLD=
 	TESTLD=
+	DIRCMD=mkdir -p bin
 else
+	CC=gcc
+	LD=gcc
 	LIBPATH=C:/cdevlibs
 
 	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
@@ -21,6 +24,9 @@ else
 
 	EMULD=-L$(LIBPATH)/lib -lmingw32 -lsdl2main -lsdl2 -lws2_32
 	ASMLD=
+	TESTLD=
+	
+	DIRCMD=if not exist bin mkdir bin
 endif
 
 BUILTIN_MACROS_ASM=asm/macros.asm
@@ -51,7 +57,7 @@ clean:
 	$(CC) -o $@ -c $< $(CCFLAGS)
 
 dirs:
-	mkdir -p bin
+	$(DIRCMD)
 
 emu: dirs $(EMU_OBJ)
 	$(LD) -o $(EMU) $(EMULD) $(LDFLAGS) $(filter %.o, $^)
