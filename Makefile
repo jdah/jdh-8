@@ -64,3 +64,4 @@ asm: dirs builtin_macros $(ASM_OBJ)
 
 test: dirs asm $(TEST_OBJ)
 	$(LD) -o $(TEST) $(TESTLD) $(LDFLAGS) $(filter %.o, $^)
+
