@@ -28,17 +28,17 @@ static bool stop_simulation(struct JDH8 *state) {
 }
 
 static int run(struct JDH8 *state, const char *speed, char *out, usize n) {
-    u64 hz = 16384;
+    u64 hz = 16000;
 
     if (speed != NULL) {
         if (!strcasecmp(speed, "realtime")) {
-            hz = 1024*1024*100; // 100 MHz (fastest possible)
+            hz = 1000*1000*100; // 100 MHz (fastest possible)
         } else if (!strcasecmp(speed, "fast")) {
-            hz = 1024*1024*2; // 2 MHz
+            hz = 1000*1000*2; // 2 MHz
         } else if (!strcasecmp(speed, "normal")) {
-            hz = 1024*1024; // 1 MHz
+            hz = 1000*1000; // 1 MHz
         } else if (!strcasecmp(speed, "slow")) {
-            hz = 8192; // 8 KHz
+            hz = 8000; // 8 KHz
         } else if (!strcasecmp(speed, "veryslow")) {
             hz = 16; // 0.015 KHz
         } else if (strtou64(speed, 0, &hz)) {
