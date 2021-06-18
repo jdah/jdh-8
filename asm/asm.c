@@ -123,7 +123,7 @@ void asmprint(
     }
 
     if (filename) {
-        snprintf(bs[0], sizeof(bs[0]), " (%s:%llu)", filename, line);
+        snprintf(bs[0], sizeof(bs[0]), " (%s:%" PRIu64 ")", filename, line);
     }
 
     if (fmt) {
@@ -134,7 +134,7 @@ void asmprint(
     if (token) {
         snprintf(
             bs[2], sizeof(bs[2]),
-            " [%s:%lu]",
+            " [%s:%" PRIu64 "]",
             token->input->name, token->line_no
         );
 

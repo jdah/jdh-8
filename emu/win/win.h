@@ -1,5 +1,5 @@
-#ifndef JDH8_WIN_H
-#define JDH8_WIN_H
+#ifndef _WIN_H_
+#define _WIN_H_
 
 #include <stdio.h>
 #include <windows.h>

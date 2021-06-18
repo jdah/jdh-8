@@ -29,7 +29,7 @@ typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
-typedef size_t usize;
+typedef uint64_t usize;
 typedef uintptr_t uptr;
 
 typedef int8_t i8;
@@ -177,7 +177,7 @@ static inline void _assert(bool e, bool fatal, const char *file, usize line) {
     if (!e) {
         fprintf(
             stderr,
-            ANSI_RED "Assertion failed. (%s:%llu)" ANSI_RESET "\n",
+            ANSI_RED "Assertion failed. (%s:%" PRIu64 ")" ANSI_RESET "\n",
             file,
             line
         );

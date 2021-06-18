@@ -59,18 +59,17 @@ See [the spec](SPEC.txt) for more information.
 ## Toolchain
 
 ### Compiling on POSIX systems
-Compile with `make`
+Compile with `$ make`
 
 ### Compiling on Windows
 1. Install MSYS2 (msys2.org)
 2. Install MinGW-W64 from MSYS2
 3. Get 64-bit SDL2 development tools (libsdl.org)
-4. Rename current Makefile to Makefile-POSIX and rename Makefile-WIN to Makefile (changed variables belong to MAKEFILE-WIN)
-5. Edit IC:/ and LC:/ in CCFLAGS and EMULD respectively to your SDL location (preferred C:/cdevlibs/include and C:/cdevlibs/lib respectively)
-6. Change CC and LD to the location of GCC (including the executable name) in your MinGW-W64 install (or alternatively, add the location to path)
-7. Install xxd for windows (https://sourceforge.net/projects/xxd-for-windows/)
-8. Change HXDP to the location of XXD (including the executable name) or add it to path
-9. Run mingw32-make (included with MinGW install) inside project directory
+4. LIBPATH to your SDL location (`Makefile` automatically specifies C:/cdevlibs)
+5. Change CC and LD to the location of GCC (including the executable name) in your MinGW-W64 install or add `gcc` and `ld` to PATH
+6. Install xxd for Windows (https://sourceforge.net/projects/xxd-for-windows/)
+7. Change variable XXD in `Makefile` to the location of XXD (including the executable name) or add `xxd` to PATH
+8. Run mingw32-make inside project directory
 
 ### **Assembler** ([`asm`](./asm))
 `./bin/asm [-h] [--help] [-v] [--verbose] [-n] [--no-builtin-macros] [-o file] file`

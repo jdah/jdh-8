@@ -12,7 +12,7 @@
 
 #define NOW() __extension__({                               \
         struct timespec ts;                                 \
-        assert(!clock_gettime(MONO_CLOCK, &ts));  \
+        assert(!clock_gettime(MONO_CLOCK, &ts));            \
         ((ts.tv_sec * NS_PER_SECOND) + ts.tv_nsec);         \
     })
 
@@ -28,7 +28,7 @@
     })
 
 // max speed 128 mhz
-#define SIMULATE_MAX_SPEED 1024*1024*128
+#define SIMULATE_MAX_SPEED 1000000000
 
 #define SIMULATE_TICK_NS (NS_PER_SECOND / 10000)
 
@@ -134,7 +134,7 @@ void dump(FILE *f, struct JDH8 *state) {
 
         fprintf(
             f,
-            "  (%llu) %s\n",
+            "  (%" PRIu64 ") %s\n",
             id, dev->name
         );
     }

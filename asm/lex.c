@@ -29,7 +29,7 @@ const char TOKEN_VALUES[TK_COUNT] = {
 
 // retrieves data from token into buf of size n. if buf is NULL, a buffer of
 // adequate size is asmalloc'd and returned. returns NULL on failure.
-char *token_data(const struct Token *token, char *buf, size_t n) {
+char *token_data(const struct Token *token, char *buf, usize n) {
     assert(token->data);
 
     if (buf == NULL) {
@@ -45,7 +45,7 @@ char *token_data(const struct Token *token, char *buf, size_t n) {
 
 // retrieves the entire line of a token into buf of size n. if buf is NULL, a
 // buffer of adequate size is asmalloc'd and returned. returns NULL on failure.
-char *token_line(const struct Token *token, char *buf, size_t n) {
+char *token_line(const struct Token *token, char *buf, usize n) {
     const char *end = strchr(token->line, '\n');
     const usize llen =
         end == NULL ?

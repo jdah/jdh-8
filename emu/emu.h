@@ -4,10 +4,6 @@
 #include "../common/util.h"
 #include "../common/jdh8.h"
 
-#if defined(WIN32) || defined(_WIN32)
-	#include "win/win.h"
-#endif
-
 // libemu.c
 #define SIMULATE_ERROR         -1
 #define SIMULATE_OK             0

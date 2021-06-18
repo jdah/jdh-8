@@ -1,14 +1,27 @@
 CC=clang
 LD=clang
+XXD=xxd
 
-CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
-CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
-CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
-LDFLAGS=
+ifneq ($(OS),Windows_NT)
+	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
+	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
+	LDFLAGS=
 
-EMULD=-lreadline -lsdl2 -lpthread
-ASMLD=
-TESTLD=
+	EMULD=-lreadline -lsdl2 -lpthread
+	ASMLD=
+	TESTLD=
+else
+	LIBPATH=C:/cdevlibs
+
+	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
+	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
+	LDFLAGS=
+
+	EMULD=-L$(LIBPATH)/lib -lmingw32 -lsdl2main -lsdl2 -lws2_32
+	ASMLD=
+endif
 
 BUILTIN_MACROS_ASM=asm/macros.asm
 BUILTIN_MACROS_C=asm/builtin_macros.c
@@ -44,7 +57,7 @@ emu: dirs $(EMU_OBJ)
 	$(LD) -o $(EMU) $(EMULD) $(LDFLAGS) $(filter %.o, $^)
 
 builtin_macros:
-	xxd -i $(BUILTIN_MACROS_ASM) > $(BUILTIN_MACROS_C)
+	$(XXD) -i $(BUILTIN_MACROS_ASM) > $(BUILTIN_MACROS_C)
 
 asm: dirs builtin_macros $(ASM_OBJ)
 	$(LD) -o $(ASM) $(ASMLD) $(LDFLAGS) $(filter %.o, $^) $(BUILTIN_MACROS_O)

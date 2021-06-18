@@ -1,11 +1,11 @@
-// File from https://github.com/klauspost/mman-win32/blob/master/mman.h
+// from https://github.com/klauspost/mman-win32/blob/master/mman.h
 
-#ifndef JDH8_WIN_MMAN_H
-#define JDH8_WIN_MMAN_H
+#ifndef WIN_MMAN_H
+#define WIN_MMAN_H
 
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
+#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
-#endif						
+#endif
 
 /* All the headers include this file. */
 #ifndef _MSC_VER
