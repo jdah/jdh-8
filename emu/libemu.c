@@ -27,8 +27,8 @@
         } else { 0; }                                       \
     })
 
-// max speed 128 mhz
-#define SIMULATE_MAX_SPEED 1024*1024*128
+// max speed 120 mhz
+#define SIMULATE_MAX_SPEED 1000*1000*120
 
 #define SIMULATE_TICK_NS (NS_PER_SECOND / 10000)
 
