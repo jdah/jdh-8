@@ -18,9 +18,18 @@
 // TODO: illegal instruction warnings
 
 static bool stop_simulation(struct JDH8 *state) {
-    struct pollfd pfds = { .fd = fileno(stdin), .events = POLLIN };
-
-    if (poll(&pfds, 1, 0) > 0 && (pfds.events & POLLIN)) {
+	#if defined(WIN32) || defined(_WIN32)
+		// Should Fix enter key not working on Windows.
+		// Key code from https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+		// I wish Microsoft would rewrite Windows from scratch to be POSIX compliant and... better for technical people
+		
+		if (GetKeyState(VK_RETURN) & 0x8000)
+	#else
+		struct pollfd pfds = { .fd = fileno(stdin), .events = POLLIN };
+		
+		if (poll(&pfds, 1, 0) > 0 && (pfds.events & POLLIN)) 
+	#endif
+	{
         char c;
         return read(fileno(stdin), &c, 1) > 0;
     }
