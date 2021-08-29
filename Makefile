@@ -25,7 +25,7 @@ else
 	EMULD=-L$(LIBPATH)/lib -lmingw32 -lsdl2main -lsdl2 -lws2_32
 	ASMLD=
 	TESTLD=
-	
+
 	DIRCMD=if not exist bin mkdir bin
 endif
 
