@@ -2628,19 +2628,19 @@ ff 30 6 48 30 1 30 2
       <a name="size" val="30"/>
     </comp>
     <comp lib="5" loc="(450,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4736c6d7"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@105dc21b"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(490,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@26e9a853"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@fc0ed35"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(530,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3dd2080d"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3d560642"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(570,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@ca2b5f"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@12c0e51b"/>
     </comp>
     <wire from="(130,110)" to="(190,110)"/>
     <wire from="(130,140)" to="(160,140)"/>
@@ -3825,19 +3825,19 @@ c004 4*4000 8081 8282 8108 c004 4*4000
       <a name="dataWidth" val="16"/>
     </comp>
     <comp lib="5" loc="(390,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@71bb55ef"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6cf3a042"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(430,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1afbc0bb"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@645251ac"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(470,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@37c42189"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@693b3f72"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(510,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@660564fd"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7c46f773"/>
     </comp>
     <wire from="(1000,560)" to="(1000,570)"/>
     <wire from="(1010,520)" to="(1010,530)"/>
@@ -4230,18 +4230,6 @@ c004 4*4000 8081 8282 8108 c004 4*4000
     <comp lib="3" loc="(740,360)" name="Adder"/>
     <comp lib="3" loc="(740,740)" name="Comparator"/>
     <comp lib="3" loc="(740,840)" name="Subtractor"/>
-    <comp lib="4" loc="(1420,760)" name="RAM">
-      <a name="addrWidth" val="15"/>
-      <a name="appearance" val="classic"/>
-      <a name="clearpin" val="true"/>
-      <a name="enables" val="line"/>
-    </comp>
-    <comp lib="4" loc="(1430,770)" name="RAM">
-      <a name="addrWidth" val="15"/>
-      <a name="appearance" val="classic"/>
-      <a name="clearpin" val="true"/>
-      <a name="enables" val="line"/>
-    </comp>
     <comp lib="4" loc="(400,320)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
