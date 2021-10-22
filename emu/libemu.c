@@ -1,3 +1,7 @@
+// fix POSIX compliance on some systems
+#define _POSIX_C_SOURCE 200809L
+
+#include <stdint.h>
 #include <time.h>
 
 #include "emu.h"
@@ -6,8 +10,10 @@
 
 #if defined(WIN32) || defined(_WIN32)
 	#define MONO_CLOCK CLOCK_MONOTONIC
+#elif defined(CLOCK_MONOTONIC_RAW)
+  #define MONO_CLOCK CLOCK_MONOTONIC_RAW
 #else
-	#define MONO_CLOCK _CLOCK_MONOTONIC_RAW
+  #define MONO_CLOCK _CLOCK_MONOTONIC
 #endif
 
 #define NOW() __extension__({                               \
@@ -281,6 +287,12 @@ int load(struct JDH8* state, const char *filename, u16 addr) {
     fseek(f, 0, SEEK_END);
     usize len = ftell(f);
     rewind(f);
+
+    if (addr + len > UINT16_MAX) {
+        warn(
+            "File too big, will overwrite %" PRIu64 " bytes starting from 0",
+            (addr + len) % UINT16_MAX);
+    }
 
     u8 *buf = malloc(len);
     if (!buf || fread(buf, len, 1, f) != 1) {
