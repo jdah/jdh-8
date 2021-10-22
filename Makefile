@@ -11,22 +11,29 @@ ifneq ($(OS),Windows_NT)
 	EMULD=-lreadline -lsdl2 -lpthread
 	ASMLD=
 	TESTLD=
+	
+	EMU_WIN_SRC=
+	EMU_WIN_OBJ=
+	
 	DIRCMD=mkdir -p bin
+	CLEAN= clean_posix
 else
 	CC=gcc
 	LD=gcc
-	LIBPATH=C:/cdevlibs
+	LIBPATH=C:/msys64/mingw64
+	SDL2CFG=$(C:/msys64/mingw64/bin/sdl-config --cflags --libs)
 
 	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
 	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
-
-	EMULD=-L$(LIBPATH)/lib -lmingw32 -lsdl2main -lsdl2 -lws2_32
+	EMULD=-lsdl2main -lsdl2
 	ASMLD=
 	TESTLD=
-
+	EMU_WIN_SRC=$(wildcard emu/win/*.c)
+	EMU_WIN_OBJ=$(EMU_WIN_SRC:.c=.o)
 	DIRCMD=if not exist bin mkdir bin
+	CLEAN= clean_win
 endif
 
 BUILTIN_MACROS_ASM=asm/macros.asm
@@ -46,9 +53,15 @@ EMU=bin/emu
 ASM=bin/asm
 TEST=bin/test
 
-all: emu asm test
+all: $(CLEAN) emu asm test
 
-clean:
+clean_win:
+	if exist bin rmdir /s /q bin
+	
+#TODO :: Make delete all files specified in .gitignore
+	del /S /Q *.o *.exe *.dll
+
+clean_posix:
 	rm -f ./bin/*
 	rmdir ./bin
 	rm -f ./**/*.o
@@ -59,8 +72,8 @@ clean:
 dirs:
 	$(DIRCMD)
 
-emu: dirs $(EMU_OBJ)
-	$(LD) -o $(EMU) $(EMULD) $(LDFLAGS) $(filter %.o, $^)
+emu: dirs $(EMU_OBJ) $(EMU_WIN_OBJ)
+	$(LD) -o $(EMU) $(filter %.o, $^) $(EMULD) $(LDFLAGS)
 
 builtin_macros:
 	$(XXD) -i $(BUILTIN_MACROS_ASM) > $(BUILTIN_MACROS_C)
