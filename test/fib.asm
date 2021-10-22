@@ -19,6 +19,7 @@ fib:
     add d, b
     mw a, b
     mw b, d
+    clb
     sbb c, 1
     jnz c, [.loop]
 .done:
