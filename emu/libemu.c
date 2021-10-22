@@ -1,3 +1,6 @@
+// fix POSIX compliance on some systems
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdint.h>
 #include <time.h>
 
@@ -7,8 +10,10 @@
 
 #if defined(WIN32) || defined(_WIN32)
 	#define MONO_CLOCK CLOCK_MONOTONIC
+#elif defined(CLOCK_MONOTONIC_RAW)
+  #define MONO_CLOCK CLOCK_MONOTONIC_RAW
 #else
-	#define MONO_CLOCK _CLOCK_MONOTONIC_RAW
+  #define MONO_CLOCK _CLOCK_MONOTONIC
 #endif
 
 #define NOW() __extension__({                               \

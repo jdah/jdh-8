@@ -3,7 +3,7 @@ XXD=xxd
 ifneq ($(OS),Windows_NT)
 	CC=clang
 	LD=clang
-	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
 	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
@@ -17,7 +17,7 @@ else
 	LD=gcc
 	LIBPATH=C:/cdevlibs
 
-	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
 	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
