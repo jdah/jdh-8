@@ -3,7 +3,7 @@ XXD=xxd
 ifneq ($(OS),Windows_NT)
 	CC=clang
 	LD=clang
-	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
 	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
@@ -23,17 +23,15 @@ else
 	LIBPATH=C:/msys64/mingw64
 	SDL2CFG=$(C:/msys64/mingw64/bin/sdl-config --cflags --libs)
 
-	CCFLAGS=-std=c11 -O0 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
 	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
 	EMULD=-lsdl2main -lsdl2
 	ASMLD=
 	TESTLD=
-	
 	EMU_WIN_SRC=$(wildcard emu/win/*.c)
 	EMU_WIN_OBJ=$(EMU_WIN_SRC:.c=.o)
-	
 	DIRCMD=if not exist bin mkdir bin
 	CLEAN= clean_win
 endif
