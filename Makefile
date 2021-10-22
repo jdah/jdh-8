@@ -11,12 +11,12 @@ ifneq ($(OS),Windows_NT)
 	EMULD=-lreadline -lsdl2 -lpthread
 	ASMLD=
 	TESTLD=
-	
+
 	EMU_WIN_SRC=
 	EMU_WIN_OBJ=
-	
+
 	DIRCMD=mkdir -p bin
-	CLEAN= clean_posix
+	CLEAN=clean_posix
 else
 	CC=gcc
 	LD=gcc
@@ -33,7 +33,7 @@ else
 	EMU_WIN_SRC=$(wildcard emu/win/*.c)
 	EMU_WIN_OBJ=$(EMU_WIN_SRC:.c=.o)
 	DIRCMD=if not exist bin mkdir bin
-	CLEAN= clean_win
+	CLEAN=clean_win
 endif
 
 BUILTIN_MACROS_ASM=asm/macros.asm
@@ -57,8 +57,6 @@ all: $(CLEAN) emu asm test
 
 clean_win:
 	if exist bin rmdir /s /q bin
-	
-#TODO :: Make delete all files specified in .gitignore
 	del /S /Q *.o *.exe *.dll
 
 clean_posix:
