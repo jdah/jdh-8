@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <time.h>
 
 #include "emu.h"
@@ -281,6 +282,12 @@ int load(struct JDH8* state, const char *filename, u16 addr) {
     fseek(f, 0, SEEK_END);
     usize len = ftell(f);
     rewind(f);
+
+    if (addr + len > UINT16_MAX) {
+        warn(
+            "File too big, will overwrite %" PRIu64 " bytes starting from 0",
+            (addr + len) % UINT16_MAX);
+    }
 
     u8 *buf = malloc(len);
     if (!buf || fread(buf, len, 1, f) != 1) {
