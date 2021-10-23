@@ -1,6 +1,14 @@
 XXD=xxd
 
 ifneq ($(OS),Windows_NT)
+	ARCH_LINUX := $(shell grep "Arch Linux" /etc/os-release 2>/dev/null)
+
+	ifeq ($(ARCH_LINUX),)
+		SDL_NAME=sdl
+	else
+		SDL_NAME=SDL
+	endif
+
 	CC=clang
 	LD=clang
 	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
@@ -8,7 +16,7 @@ ifneq ($(OS),Windows_NT)
 	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
 	LDFLAGS=
 
-	EMULD=-lreadline -lsdl2 -lpthread
+	EMULD=-lreadline -l$(SDL_NAME)2 -lpthread
 	ASMLD=
 	TESTLD=
 
@@ -53,15 +61,16 @@ EMU=bin/emu
 ASM=bin/asm
 TEST=bin/test
 
-all: $(CLEAN) emu asm test
+all: emu asm test
+
+clean: $(CLEAN)
 
 clean_win:
 	if exist bin rmdir /s /q bin
 	del /S /Q *.o *.exe *.dll
 
 clean_posix:
-	rm -f ./bin/*
-	rmdir ./bin
+	rm -rf ./bin
 	rm -f ./**/*.o
 
 %.o: %.c

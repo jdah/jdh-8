@@ -84,6 +84,41 @@ typedef intptr_t iptr;
     })
 #endif
 
+// from https://c-for-dummies.com/blog/?p=3886
+#if !defined(strlcpy)
+#define strlcpy __strlcpy_impl
+#endif
+
+static inline size_t __strlcpy_impl(
+        char *dst,
+        const char *src,
+        size_t dstsize
+    ) {
+    size_t offset;
+
+    offset = 0;
+
+    if (dstsize > 0) {
+        while (*(src + offset) != '\0') {
+            if (offset == dstsize) {
+                offset--;
+                break;
+            }
+
+            *(dst + offset) = *(src + offset);
+            offset++;
+        }
+    }
+
+    *(dst + offset) = '\0';
+
+    while(*(src+offset) != '\0') {
+      offset++;
+    }
+
+    return(offset);
+}
+
 static inline char *strlstrip(char *str) {
     usize len = strlen(str);
     while (isspace(*str)) memmove(str, str + 1, --len);

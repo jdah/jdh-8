@@ -8,8 +8,6 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-size_t strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
-
 #define POLLIN 0x0001
 #define POLLPRI 0x0002 /* not used */
 #define POLLOUT 0x0004

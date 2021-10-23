@@ -1,33 +1,6 @@
 #include "win.h"
 #include "mman.h"
 
-// from https://c-for-dummies.com/blog/?p=3886
-size_t strlcpy(char *restrict dst, const char *restrict src, size_t dstsize) {
-    size_t offset;
-
-    offset = 0;
-
-    if (dstsize > 0) {
-        while (*(src + offset) != '\0') {
-            if (offset == dstsize) {
-                offset--;
-                break;
-            }
-
-            *(dst + offset) = *(src + offset);
-            offset++;
-        }
-    }
-
-    *(dst + offset) = '\0';
-
-    while(*(src+offset) != '\0') {
-			offset++;
-		}
-
-    return(offset);
-}
-
 // from https://narkive.com/oLyNbGSV
 int poll(struct pollfd *p, int num, int timeout) {
 	struct timeval tv;
