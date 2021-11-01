@@ -7,7 +7,7 @@ mw:
 .const:
   eop1, ~sel, lreg
 .reg:
-  ereg, sel, ldx
+  ereg, sel, ldy
   ealu, ~sel, lreg
 
 lw:

@@ -107,7 +107,8 @@ void asmprint(
         const char *filename,
         usize line,
         const char *fmt,
-        ...) {
+        ...
+    ) {
     va_list args;
     va_start(args, fmt);
 
@@ -352,7 +353,6 @@ static enum Arg *check_args(
         enum Arg *args,
         usize num_args
     ) {
-
     enum Arg *arg = args, *op_arg = op->args;
     while (arg != &args[num_args]) {
         // too many arguments
@@ -640,7 +640,9 @@ static void emit(
 // lexer line end callback. used to trigger lex directives.
 static void lex_line(struct Context *ctx, struct Token *first) {
     if (first->kind == TK_AT) {
-        asmchk(first->next->kind == TK_SYMBOL, ctx, first, "Expected directive");
+        asmchk(
+            first->next->kind == TK_SYMBOL,
+            ctx, first, "Expected directive");
 
         char directive_name[32];
         assert(token_data(first->next, directive_name, sizeof(directive_name)));
@@ -743,7 +745,8 @@ static struct Token *parse(struct Context *ctx, struct Token *first) {
 
     enum Arg args[16], *error_arg;
     struct Token *arg_tokens[16];
-    usize num_args = type_args(ctx, first->next, args, arg_tokens, ARRLEN(args));
+    usize num_args =
+        type_args(ctx, first->next, args, arg_tokens, ARRLEN(args));
 
     // find a matching operation
     while (op != &ctx->ops.buffer[ctx->ops.size]) {
@@ -824,14 +827,14 @@ static void assemble(struct Context *ctx) {
 
 static void usage() {
     printf(
-        "usage: asm [-h] [--help] [-v] [--verbose] [-n]"
-        "[--no-builtin-macros] [-o file] file\n"
+        "usage: asm [-h] [--help] [-v/--verbose]"
+        "[-n/--no-builtin-macros] [-e/--emit-dual-16] [-o file] file\n"
     );
 }
 
 int main(int argc, const char *argv[]) {
     const char *infile = NULL, *outfile = "out.bin";
-    bool builtin_macros = true;
+    bool builtin_macros = true, emit_dual_16 = false;
     struct Context ctx;
     memset(&ctx, 0, sizeof(struct Context));
 
@@ -849,6 +852,9 @@ int main(int argc, const char *argv[]) {
         } else if (!strcmp(argv[i], "-n") ||
                 !strcmp(argv[i], "--no-builtin-macros")) {
             builtin_macros = false;
+        } else if (!strcmp(argv[i], "-e") ||
+                !strcmp(argv[i], "--emit-dual-16")) {
+            emit_dual_16 = true;
         } else {
             asmchk(
                 infile == NULL, NULL, NULL,
@@ -876,15 +882,36 @@ int main(int argc, const char *argv[]) {
         char *builtin_macros_text = asmalloc(BUILTIN_MACROS_LEN + 1);
         memcpy(builtin_macros_text, BUILTIN_MACROS_TEXT, BUILTIN_MACROS_LEN);
         builtin_macros_text[BUILTIN_MACROS_LEN] = '\0';
-        assert(!push_input_buffer(&ctx, "(BUILT-IN MACROS)", builtin_macros_text));
+        assert(
+            !push_input_buffer(&ctx, "(BUILT-IN MACROS)", builtin_macros_text));
     }
 
     assemble(&ctx);
 
-    FILE *out = fopen(outfile, "w+");
-    assert(out);
-    assert(fwrite(ctx.out.buffer, ctx.out.size, 1, out) == 1);
-    assert(!fclose(out));
+    // emit_dual_16 mode will emit two files meant to be used on two separate
+    // memory chips to act as one 16-bit memory chip. The file suffixed '.0' has
+    // all low bytes of 16-bit words, and the file suffixed '.1' has all
+    // high bytes of 16-bit words.
+    if (emit_dual_16) {
+        for (usize i = 0; i < 2; i++) {
+            char name[1024];
+            int n = snprintf(name, sizeof(name), "%s.%" PRIu64, outfile, i);
+            assert(n >= 0 && n < sizeof(name));
+            FILE *out = fopen(name, "w+");
+            assert(out);
+
+            for (usize j = i; j < ctx.out.size; j += 2) {
+                assert(fwrite(&ctx.out.buffer[j], 1, 1, out) == 1);
+            }
+
+            assert(!fclose(out));
+        }
+    } else {
+        FILE *out = fopen(outfile, "w+");
+        assert(out);
+        assert(fwrite(ctx.out.buffer, ctx.out.size, 1, out) == 1);
+        assert(!fclose(out));
+    }
 
     // free allocated memory regions
     while (region) {

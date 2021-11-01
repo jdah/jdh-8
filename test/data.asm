@@ -6,7 +6,7 @@ lda [0xFEFF]
 sw [0xFFFC], l
 sw [0xFFFD], h
 
-mw a, 0x00
+mw a, 0x01
 sw [0x8000], a
 jmp [main]
 
@@ -46,6 +46,7 @@ main:
   call [sets_a_to_ff]
   jne a, 0xFF, [fail]
 
+  sw [0x8000], 0x00
   halt
 
 strlen:

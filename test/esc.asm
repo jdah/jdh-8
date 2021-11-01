@@ -5,6 +5,10 @@
 ; d = 0x09
 ; z = 0x5C
 
+lda [0xFEFF]
+sw [0xFFFC], l
+sw [0xFFFD], h
+
 jmp [test]
 
 strings:

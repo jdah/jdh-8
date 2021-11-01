@@ -244,8 +244,6 @@ void command(struct JDH8 *state, const char *text, char *out, usize n) {
 int main(int argc, const char *argv[]) {
     struct JDH8 state;
     memset(&state, 0, sizeof(state));
-    state.status = BIT_SET(state.status, S_POWER, 1);
-
     mod_init();
 
     bool loaded = false;

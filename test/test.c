@@ -157,9 +157,12 @@ static bool test(const char *filename) {
     // emulate until halt
     struct JDH8 state;
     memset(&state, 0, sizeof(struct JDH8));
+    add_bank(&state, 1);
 
     dbg("Emulating...\n");
     load(&state, tmpfile, 0);
+    state.write_protect = true;
+
     usize count = 0;
     while (!halted(&state)) {
         step(&state);

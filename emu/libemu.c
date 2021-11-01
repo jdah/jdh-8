@@ -210,22 +210,12 @@ u16 pop16(struct JDH8 *state) {
         (((u16) peek(state, ++state->special.pc)) << 8);
 }
 
-void interrupt(struct JDH8 *state, u8 n) {
-    assert(n <= 125);
-    push16(state, state->special.pc);
-    state->special.pc = peek16(state, ADDR_INTERRUPT_TABLE + (n * 2));
-    state->status = BIT_SET(state->status, S_INTERRUPT, 1);
-}
-
 u8 inb(struct JDH8 *state, u8 port) {
     struct Device *dev;
 
     switch (port) {
         case P_STATUS_REGISTER:
             return state->status;
-        case P_INTERRUPT_CONTROL:
-            warn("Read from interrupt control\n");
-            break;
         default:
             dev = &state->devices[port];
             if (dev->id != 0) {
@@ -246,22 +236,7 @@ u8 inb(struct JDH8 *state, u8 port) {
 void outb(struct JDH8 *state, u8 port, u8 data) {
     switch (port) {
         case P_STATUS_REGISTER:
-            if ((data & (1 << S_INTERRUPT)) !=
-                    (state->status & (1 << S_INTERRUPT))) {
-                warn("Illegal attempted modification of STATUS:INTERRUPT");
-            }
             state->status = data;
-            break;
-        case P_INTERRUPT_CONTROL:
-            if (data == 0xFF) {
-                if (state->status & (1 << S_INTERRUPT)) {
-                    state->special.pc = pop16(state);
-                } else {
-                    warn("Illegal attempted interrupt return\n");
-                }
-            } else {
-                interrupt(state, data);
-            }
             break;
         default:
             if (state->devices[port].id != 0) {
@@ -396,7 +371,6 @@ void step(struct JDH8 *state) {
                 default: break;
             }
 
-            f = state->registers.f;
             state->registers.raw[pc0 & 0x7] = r;
 
             // load flags
@@ -404,20 +378,12 @@ void step(struct JDH8 *state) {
                     ins == I_ADC ||
                     ins == I_SBB ||
                     ins == I_CMP) {
-                f = BIT_SET(f, F_LESS, a < b);
-                f = BIT_SET(f, F_EQUAL, a == b);
+                f = 0x00;
+                f = BIT_SET(f, F_LESS, a < b ? 1 : 0);
+                f = BIT_SET(f, F_EQUAL, a == b ? 1 : 0);
                 f = BIT_SET(
-                    f, F_CARRY,
-                    (ins == I_ADD || ins == I_ADC) ?
-                        ((((u16) a) + ((u16) (b))) > 255 ? 1 : 0) :
-                        !!(f & (1 << F_CARRY))
-                );
-                f = BIT_SET(
-                    f, F_BORROW,
-                    ins == I_SBB ?
-                        (b > a ? 1 : 0) :
-                        !!(f & (1 << F_BORROW))
-                );
+                    f, F_CARRY, (((u16) a) + ((u16) (b))) > 255 ? 1 : 0);
+                f = BIT_SET(f, F_BORROW, b > a ? 1 : 0);
                 state->registers.f = f;
             }
 

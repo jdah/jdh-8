@@ -2,13 +2,12 @@
 = JDH-8 SPEC =
 ==============
 
-TODO: insert a description here
-
-GENERAL
-- Little endian
-- 8-bit processor
-- 16-bit address bus (64k RAM! maybe more with banking?)
-- Device communication via inb/outb
+=== GENERAL ===
+* 8-bit processor
+* 16-bit address bus/64 KiB accessible memory
+* Memory banking via MB register allowing for 256 possible memory banks
+* Device communication via inb/outb
+* Little endian for 16-bit operations
 
 === INSTRUCTIONS ===
 0: MW   reg, imm8/reg   -> reg = imm8/reg
@@ -62,13 +61,14 @@ Z: 3-bit register identifier of first register argument (see REGISTERS)
 0xC000..0xFDFF: GENERAL PURPOSE RAM
 0xFC00..0xFEFF: STACK (RECOMMENDED), else GP RAM
 0xFF00..0xFFF9: GENERAL PURPOSE RAM
-0xFFFA..0xFFFB: MB/(M)emory (B)ank
+0xFFFA..0xFFFA: MB/(M)emory (B)ank
+0xFFFB..0xFFFB: UNUSED
 0xFFFC..0xFFFD: SP/(S)tack (P)ointer
 0xFFFE..0xFFFF: PC/(P)rogram (C)ounter
 
 === MEMORY BANKING ===
-0x8000..0xBFFF *CAN* be swapped using the MB register IF th CPU supports
-memory banking. Otherwise 0x8000..0xBFFF is treated as normal GP RAM.
+0x8000..0xBFFF can be swapped using the MB register, where MB=0 indicates that
+the built-in RAM is in use.
 
 === PORTS ===
 PORTS are used to communicate with devices or by the JDH-8 itself. See
@@ -87,21 +87,19 @@ Its bits are as follows, from LSB to MSB:
     POWER       (RW)
     HALT        (RW)
 
-
-mw b, 0xFF -> 0x01, 0xFF
-
-lw a, [(ADDR_BASE + 3)]
-
-SYMBOL(LW)
-SYMBOL(A)
-LBRACKET
-LPAREN
-SYMBOL(ADDR_BASE)
-PLUS
-NUMBER(3)
-RPAREN
-RBRACKET
-
-(10 + (5 * 2)) = 20
-
-(10 + 5 * 2) = 30
+=== VIDEO ===
+The JDH-8 circuit/emulator include support for a graphics card which outputs
+an analog signal at 208x240 not-exactly-square black or white pixels using
+the same 4 MHz clock as the rest of the computer. This is done by using memory
+bank 1 as shared VRAM so the CPU has fast read/write access. The memory layout
+for the image is as follows:
+* VRAM starts at 0x8000 (start of banked memory, 0x0000 in the physical chip)
+* Each scanline (208 horizontal pixels) of the image spans 32 contiguous bytes
+  in VRAM
+* Scanlines are layed out as follows:
+    * [0..3]    (4 bytes) padding
+    * [4..29]  (26 bytes) data, one bit per pixel
+    * [30..31]  (2 bytes) padding
+Note that depending on the screen, not all parts of the scanlines will be
+visible, so the "safe" drawing area is pixels 8..199 out of 0..207. All vertical
+lines will be visible due to large vertical padding built into the video card.

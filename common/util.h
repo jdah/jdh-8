@@ -40,7 +40,7 @@ typedef int64_t i64;
 typedef ssize_t isize;
 typedef intptr_t iptr;
 
-#define BIT_SET(_v, _n, _x) BIT_SET_MASK(_v, (1 << (_n)), _x)
+#define BIT_SET(_v, _n, _x) BIT_SET_MASK((_v), (1 << (_n)), (_x))
 
 #define BIT_SET_MASK(_v, _m, _x) __extension__({        \
         __typeof__(_v) __v = (_v);                      \

@@ -61,26 +61,30 @@ enum Flag {
 };
 
 enum Port {
-    P_STATUS_REGISTER   = 0x00,
-    P_INTERRUPT_CONTROL = 0x01
+    P_STATUS_REGISTER   = 0x00
 };
 
-#define S_NAMES ((const char *[]){"INTERRUPT", "ERROR", "POWER", "HALT"})
+#define S_NAMES ((const char *[]){"UNUSED", "ERROR", "UNUSED", "HALT"})
 #define S_NAME(_f) ((S_NAMES)[(_f)])
 #define S_COUNT (S_HALT + 1)
 enum Status {
-    S_INTERRUPT = 0x00,
+    S_UNUSED0   = 0x00,
     S_ERROR     = 0x01,
-    S_POWER     = 0x02,
+    S_UNUSED1   = 0x02,
     S_HALT      = 0x03
 };
 
-#define ADDR_INTERRUPT_TABLE 0xFF00
 #define ADDR_MB 0xFFFA
 #define ADDR_SP 0xFFFC
 #define ADDR_PC 0xFFFE
 
-#define SIZE_INTERRUPT_TABLE (ADDR_INTERRUPT_TABLE - ADDR_MB)
+#define SIZE_ROM    0x8000
+#define SIZE_BANK   0x4000
+#define SIZE_RAM    0x4000
+
+#define ADDR_ROM    0x0000
+#define ADDR_BANK   (ADDR_ROM + SIZE_ROM)
+#define ADDR_RAM    (ADDR_BANK + SIZE_BANK)
 
 // forward declaration
 struct JDH8;
@@ -120,9 +124,9 @@ struct JDH8 {
 
     union {
         struct {
-            u8 rom[0x8000];
-            u8 bank[0x4000];
-            u8 ram[0x4000];
+            u8 rom[SIZE_ROM];
+            u8 bank[SIZE_BANK];
+            u8 ram[SIZE_RAM];
         };
 
         u8 raw[0xFFFF];
@@ -146,6 +150,7 @@ struct JDH8 {
     } registers;
 
     struct Device devices[DEVICE_MAX];
+    bool write_protect;
     bool simulating;
 };
 
@@ -181,6 +186,14 @@ static inline u16 peek16(struct JDH8 *state, u16 addr) {
 }
 
 static inline void poke(struct JDH8 *state, u16 addr, u8 v) {
+    if (state->write_protect &&
+            addr >= ADDR_ROM && addr < ADDR_ROM + SIZE_ROM) {
+        warn(
+            "Attempt to write to ROM at [0x%04X] (pc=[0x%04X])\n",
+            addr, state->special.pc);
+        return;
+    }
+
     u8 *p = ppeek(state, addr);
     if (p) {
         *p = v;

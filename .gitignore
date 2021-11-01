@@ -1,5 +1,6 @@
 asm/builtin_macros.c
 .DS_Store
+out.bin*
 
 # binaries
 bin/

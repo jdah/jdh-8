@@ -3,7 +3,7 @@
 ;   Some macros might trash the F register.
 ;   Macros dealing with memory might trash the HL registers.
 
-; Sets HALT bit to one in STATUS REGISTER
+; Sets HALT bit in the STATUS REGISTER
 @macro
 HALT:
     inb f, 0x00

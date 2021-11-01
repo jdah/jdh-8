@@ -121,11 +121,10 @@ void screen_init(struct JDH8 *state, struct Device *dev) {
     memset(screen.bank, 0, 0x8000);
 
     assert(!SDL_Init(SDL_INIT_VIDEO));
-    // TODO: remove windowpos
     window = SDL_CreateWindow(
         "JDH8",
-        SDL_WINDOWPOS_CENTERED_DISPLAY(1),
-        SDL_WINDOWPOS_CENTERED_DISPLAY(1),
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH, WINDOW_HEIGHT, 0
     );
     assert(window);

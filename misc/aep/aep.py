@@ -238,11 +238,11 @@ while True:
 
         for j in range(0, 240):
             for i in range(0, 32):
-                if i < 5 or i == 31:
+                if i < 4 or i > 29:
                     data.append(0x55)
                     continue
 
-                base = (j * 208) + ((i - 5) * 8)
+                base = (j * 208) + ((i - 4) * 8)
                 px = map(lambda p: p[0] != 0 or p[1] != 0 or p[2] != 0, pixels[base:base+8])
                 b = 0
 
