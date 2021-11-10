@@ -6,6 +6,74 @@ struct Directive {
     void (*handler)(struct Context *, struct Token *);
 };
 
+static void dir_ifdef(struct Context *ctx, struct Token *first) {
+    char *def_kind = token_data(first->next, NULL, 0);
+    assert(def_kind);
+
+    bool negate = !strcasecmp(def_kind, "ifndef");
+
+    if (ctx->ifs.size != 0 && (BUFPEEK(ctx->ifs) != IFF_SUCCESS)) {
+        BUFPUSH(ctx->ifs, IFF_PARENT_FAILURE);
+        asmdbg(ctx, first, "@if(n)def fail due to parent");
+    } else {
+        struct Token *def = first->next->next;
+        asmchk(def, ctx, def, "Malformed @%s", def_kind);
+        asmchk(def->next->kind == TK_EOL, ctx, def, "Malformed @%s", def_kind);
+
+        char *def_name = token_data(def, NULL, 0);
+        assert(def_name);
+
+        // check if defined
+        struct Define *d = ctx->defines;
+        while (d != NULL) {
+            if (!strcasecmp(def_name, d->name)) {
+                break;
+            }
+
+            d = d->next;
+        }
+
+        bool defined = d != NULL;
+        asmdbg(
+            ctx, first->next->next,
+            "%s is %sdefined", def_name, defined ? "" : "not ");
+
+        BUFPUSH(ctx->ifs, negate != defined ? IFF_SUCCESS : IFF_FAILURE);
+        asmdbg(
+            ctx, first,
+            "@if(n)def %s", negate != defined ? "success" : "failure");
+    }
+}
+
+static void dir_else(struct Context *ctx, struct Token *first) {
+    asmchk(
+        first->next->next->kind == TK_EOL, ctx, first->next,
+        "Malformed @else");
+    asmchk(
+        ctx->ifs.size != 0, ctx, first->next,
+        "@else must follow @if(n)def");
+
+    u8 *state = BUFPEEKP(ctx->ifs);
+
+    if (*state != IFF_PARENT_FAILURE) {
+        *state = *state == IFF_SUCCESS ? IFF_FAILURE : IFF_SUCCESS;
+        asmdbg(ctx, first, "@else, flipping");
+    } else {
+        asmdbg(ctx, first, "@else ignored due to parent failure");
+    }
+}
+
+static void dir_endif(struct Context *ctx, struct Token *first) {
+    asmchk(
+        first->next->next->kind == TK_EOL, ctx, first->next,
+        "Malformed @endif");
+    asmchk(
+        ctx->ifs.size != 0, ctx, first->next,
+        "@endif must follow @if(n)def");
+    BUFPOP(ctx->ifs);
+    asmdbg(ctx, first, "Popped @if(n)def");
+}
+
 static void dir_microcode(struct Context *ctx, struct Token *first) {
     asmchk(first->next->next->kind == TK_EOL, ctx, first, "Invalid directive");
     asmdbg(ctx, NULL, "Microcode mode enabled");
@@ -50,7 +118,7 @@ static void dir_define(struct Context *ctx, struct Token *first) {
     }
 
     asmchk(
-        strcasecmp(def_name, def_value),
+        !def_value || strcasecmp(def_name, def_value),
         ctx, name,
         "%s defined as itself, this will not end well",
         def_name
@@ -217,6 +285,10 @@ static const struct Directive DIRECTIVES[] = {
     { "dd", false, dir_dd },
     { "dn", false, dir_dn },
     { "org", false, dir_org },
+    { "ifdef", true, dir_ifdef },
+    { "ifndef", true, dir_ifdef },
+    { "else", true, dir_else },
+    { "endif", true, dir_endif }
 };
 
 void directive(
@@ -224,19 +296,22 @@ void directive(
        struct Token *first,
        bool lex
     ) {
+    if (first->flags & TF_IGNORE) {
+        return;
+    }
+
     assert(first->kind == TK_AT);
     assert(first->next->kind == TK_SYMBOL);
 
     char symbol[256];
     assert(token_data(first->next, symbol, sizeof(symbol)));
 
-    asmdbg(ctx, first, "Processing directive %s", symbol);
-
     for (usize i = 0; i < ARRLEN(DIRECTIVES); i++) {
         const struct Directive *d = &DIRECTIVES[i];
 
         if (!strcasecmp(d->name, symbol)) {
             if (lex == d->lex) {
+                asmdbg(ctx, first, "Processing directive %s", symbol);
                 d->handler(ctx, first);
             }
 

@@ -2,6 +2,11 @@
 ; = PONG =
 ; ========
 
+@include "os/arch.asm"
+@include "os/oscall.asm"
+
+@org ADDR_RAM
+
 ; sizes
 @define SCREEN_WIDTH  160
 @define SCREEN_HEIGHT 120
@@ -13,37 +18,19 @@
 @define PLEFT 0
 @define PRIGHT 1
 
-; run out of characters after this...
+; run out of characters after this
 @define MAX_SCORE 9
 
 ; keyboard port
-@define KBPRT 3
-
-@org 0x0000
+@define KBPRT 2
 
 jmp [main]
 
-; DATA (ROM)
-@include "lib/arch.asm"
-@include "lib/shift.asm"
-@include "lib/font.asm"
-@include "lib/math.asm"
-
-; DATA (RAM)
-@define PADDLES (ADDR_RAM +  0)
-@define PBALL   (ADDR_RAM +  2)
-@define VBALL   (ADDR_RAM +  4)
-@define SCORES  (ADDR_RAM +  6)
-@define RANDN   (ADDR_RAM +  8)
-@define DIRTY   (ADDR_RAM +  9)
-@define PLBALL  (ADDR_RAM + 10)
-@define KEYS    (ADDR_RAM + 12)
-
 ; dirty flags
-@define DIRTY_SCORES  0x01
-@define DIRTY_BORDER  0x02
-@define DIRTY_PLEFT   0x04
-@define DIRTY_PRIGHT  0x08
+@define dirty_scores  0x01
+@define dirty_BORDER  0x02
+@define dirty_PLEFT   0x04
+@define dirty_PRIGHT  0x08
 
 ; key scancodes
 @define SCAN_LU 0x1A
@@ -57,15 +44,33 @@ jmp [main]
 @define KEY_RU  0x04
 @define KEY_RD  0x08
 
+; variables
+paddles:
+  @dd 0x0000
+pball:
+  @dd 0x0000
+vball:
+  @dd 0x0000
+scores:
+  @dd 0x0000
+randn:
+  @db 0x00
+dirty:
+  @dd 0x00
+plball:
+  @dd 0x0000
+keys:
+  @db 0x00
+
 ; TEXT
 
 ; places random number in z
 rand:
   push a
-  lw z, [RANDN]
+  lw z, [randn]
   mw a, 113
   add a, z
-  sw [RANDN], a
+  sw [randn], a
   pop a
   ret
 
@@ -75,47 +80,47 @@ reset:
   pusha
 
   ; any score > 9? reset scores
-  lw a, [(SCORES + 0)]
-  lw b, [(SCORES + 1)]
+  lw a, [(scores + 0)]
+  lw b, [(scores + 1)]
   cmp a, MAX_SCORE
   mw h, f
   cmp b, MAX_SCORE
   and f, h
   jle [.no_score_reset]
-  sw [(SCORES + 0)], 0
-  sw [(SCORES + 1)], 0
+  sw [(scores + 0)], 0
+  sw [(scores + 1)], 0
 .no_score_reset:
   ; reset paddles
 @define reset_PADDLE_HEIGHT ((SCREEN_HEIGHT - PADDLE_HEIGHT) / 2)
-  sw [(PADDLES + 0)], reset_PADDLE_HEIGHT
-  sw [(PADDLES + 1)], reset_PADDLE_HEIGHT
+  sw [(paddles + 0)], reset_PADDLE_HEIGHT
+  sw [(paddles + 1)], reset_PADDLE_HEIGHT
 
   ; reset ball
-  sw [(PBALL + 0)], ((SCREEN_WIDTH - BALL_SIZE) / 2)
+  sw [(pball + 0)], ((SCREEN_WIDTH - BALL_SIZE) / 2)
 
   call [rand]
   and z, 0x7F
   add z, ((SCREEN_HEIGHT - 0x7F) / 2)
-  sw [(PBALL + 1)], z
+  sw [(pball + 1)], z
 
-  lw a, [(PBALL + 0)]
-  lw b, [(PBALL + 1)]
-  sw [(PLBALL + 0)], a
-  sw [(PLBALL + 1)], b
+  lw a, [(pball + 0)]
+  lw b, [(pball + 1)]
+  sw [(plball + 0)], a
+  sw [(plball + 1)], b
 
   ; ball velocity -> towards last to lose
   jeq a, PRIGHT, [.neg_x]
-  sw [(VBALL + 0)], 1
+  sw [(vball + 0)], 1
   jmp [.y]
 .neg_x:
-  sw [(VBALL + 0)], (-1)
+  sw [(vball + 0)], (-1)
 .y:
   call [rand]
   jms z, 0x1, [.neg_y]
-  sw [(VBALL + 1)], 1
+  sw [(vball + 1)], 1
   jmp [.done]
 .neg_y:
-  sw [(VBALL + 1)], (-1)
+  sw [(vball + 1)], (-1)
 .done:
   ; reset screen
   lda a, b, [ADDR_BANK]
@@ -123,132 +128,10 @@ reset:
   mw z, 0
   call [memset]
 
-  sw [DIRTY], 0xFF
+  sw [dirty], 0xFF
   call [draw]
-  sw [DIRTY], 0x00
+  sw [dirty], 0x00
 
-  popa
-  ret
-
-; copies memory
-; a, b: dst
-; c, d: src
-; z: len
-memcpy:
-  pusha
-  jz z, [.done]
-.loop:
-  lw f, a, b
-  sw c, d, f
-  add16 a, b, 1
-  add16 c, d, 1
-  dec z
-  jnz z, [.loop]
-.done:
-  popa
-  ret
-
-; sets memory
-; a, b: dst
-; c, d: len
-; z: value
-memset:
-  pusha
-  add16 c, d, a, b
-.loop:
-  eq16 a, b, c, d
-  jnz f, [.done]
-  sw a, b, z
-  add16 a, b, 1
-  jmp [.loop]
-.done:
-  popa
-  ret
-
-; sets pixel
-; a: x
-; b: y
-; c: value
-set_pixel:
-  pusha
-
-  mw d, a
-  mw z, c
-
-  ; [ab] -> screen byte
-  mw a, 0
-  mw c, (SCREEN_WIDTH / 8)
-  call [mul16_8]
-  add16 a, b, ADDR_BANK
-
-  ; x >> 3 for byte
-  push a, b
-  mw a, d
-  mw b, 3
-  call [shr]
-  mw c, a
-  pop b, a
-
-  add16 a, b, c
-
-  ; 1 << (d & 0x7) is pixel mask
-  push a, b
-  and d, 0x7
-  mw a, 1
-  mw b, d
-  call [shl]
-  mw d, a
-  pop b, a
-
-  lw c, a, b
-  jnz z, [.fill]
-  not d
-  and c, d
-  jmp [.store]
-.fill:
-  or c, d
-.store:
-  sw a, b, c
-  popa
-  ret
-
-; draws a font glyph
-; a: glyph to draw
-; c, d: x, y (x is in byte indices)
-draw_char:
-  pusha
-  ; [ab] -> first byte
-  sub a, ' '
-  mw b, a
-  mw a, 0
-  push c
-  mw c, 8
-  call [mul16_8]
-  pop c
-  add16 a, b, [font]
-
-  ; [cd] -> first screen byte
-  push a, b, c
-  mw c, (SCREEN_WIDTH / 8)
-  mw a, 0
-  mw b, d
-  call [mul16_8]
-  add16 a, b, ADDR_BANK
-  pop c
-  add16 a, b, c
-  mw c, a
-  mw d, b
-  pop b, a
-
-  mw z, 7
-.loop:
-  lw f, a, b
-  sw c, d, f
-  add16 a, b, 1
-  add16 c, d, (SCREEN_WIDTH / 8)
-  cdec z
-  jnz z, [.loop]
-.done:
   popa
   ret
 
@@ -261,7 +144,7 @@ draw_paddle:
   mw z, b
 
   ; c <- paddle y
-  lda [PADDLES]
+  lda [paddles]
   add16 h, l, a
   lw c
 
@@ -334,12 +217,12 @@ draw_scores:
   push a, c, d
   mw d, 4
 
-  lw a, [(SCORES + 0)]
+  lw a, [(scores + 0)]
   add a, '0'
   mw c, (((SCREEN_WIDTH / 8) / 2) - 2)
   call [draw_char]
 
-  lw a, [(SCORES + 1)]
+  lw a, [(scores + 1)]
   add a, '0'
   mw c, (((SCREEN_WIDTH / 8) / 2) + 1)
   call [draw_char]
@@ -371,8 +254,8 @@ draw_ball:
 .loop_c:
   mw d, 0
 .loop_d:
-  lw a, [(PBALL + 0)]
-  lw b, [(PBALL + 1)]
+  lw a, [(pball + 0)]
+  lw b, [(pball + 1)]
 
   add a, c
   add b, d
@@ -391,25 +274,25 @@ draw_ball:
 ; dirty things according to ball's location
 dirty_ball:
   push a, b, c
-  lw a, [(PBALL + 0)]
-  lw b, [(PBALL + 1)]
-  lw c, [DIRTY]
+  lw a, [(pball + 0)]
+  lw b, [(pball + 1)]
+  lw c, [dirty]
 
   ; ball in middle? redraw border
   jlt a, ((SCREEN_WIDTH / 2) - 2), [.dscores]
   jgt a, ((SCREEN_WIDTH / 2) + 2), [.dscores]
-  or c, DIRTY_BORDER
+  or c, dirty_BORDER
 .dscores:
   jgt b, 16, [.dleft]
-  or c, DIRTY_SCORES
+  or c, dirty_scores
 .dleft:
   jgt a, 16, [.dright]
-  or c, DIRTY_PLEFT
+  or c, dirty_PLEFT
 .dright:
   jlt a, (SCREEN_WIDTH - 16), [.done]
-  or c, DIRTY_PRIGHT
+  or c, dirty_PRIGHT
 .done:
-  sw [DIRTY], c
+  sw [dirty], c
   pop c, b, a
   ret
 
@@ -418,50 +301,50 @@ draw:
   pusha
 
   ; clear ball
-  lw a, [(PBALL + 0)]
-  lw b, [(PBALL + 1)]
-  lw c, [(PLBALL + 0)]
-  lw d, [(PLBALL + 1)]
-  sw [(PBALL + 0)], c
-  sw [(PBALL + 1)], d
+  lw a, [(pball + 0)]
+  lw b, [(pball + 1)]
+  lw c, [(plball + 0)]
+  lw d, [(plball + 1)]
+  sw [(pball + 0)], c
+  sw [(pball + 1)], d
 
   push a, b
   mw a, 0
   call [draw_ball]
   pop b, a
 
-  sw [(PBALL + 0)], a
-  sw [(PBALL + 1)], b
+  sw [(pball + 0)], a
+  sw [(pball + 1)], b
 
   ; draw dirty screen elements
-  lw c, [DIRTY]
-  jmn c, DIRTY_BORDER, [.dscores]
+  lw c, [dirty]
+  jmn c, dirty_BORDER, [.dscores]
   call [draw_border]
 .dscores:
-  jmn c, DIRTY_SCORES, [.dleft]
+  jmn c, dirty_scores, [.dleft]
   call [draw_scores]
 .dleft:
-  jmn c, DIRTY_PLEFT, [.dright]
+  jmn c, dirty_PLEFT, [.dright]
   mw a, PLEFT
   mw b, 0xF0
   call [draw_paddle]
 .dright:
-  jmn c, DIRTY_PRIGHT, [.done]
+  jmn c, dirty_PRIGHT, [.done]
   mw a, PRIGHT
   mw b, 0x0F
   call [draw_paddle]
 .done:
-  sw [DIRTY], 0
+  sw [dirty], 0
   mw a, 1
   call [draw_ball]
   popa
   ret
 
-; updates KEYS with current keyboard data
+; updates keys with current keyboard data
 check_keys:
   push a, b, c
 
-  lw c, [KEYS]
+  lw c, [keys]
   inb a, KBPRT
 
   ; b <- pure scancode
@@ -495,7 +378,7 @@ check_keys:
   ; set bit (key down)
   or c, b
 .done:
-  sw [KEYS], c
+  sw [keys], c
   pop c, b, a
   ret
 
@@ -506,7 +389,7 @@ move_paddle:
   pusha
 
   ; z <- ([cd] -> paddle byte)
-  lda c, d, [PADDLES]
+  lda c, d, [paddles]
   add16 c, d, a
   lw z, c, d
 
@@ -529,14 +412,14 @@ move_paddle:
   sw c, d, z
 
   ; mark dirty
-  lw c, [DIRTY]
+  lw c, [dirty]
   jeq a, PRIGHT, [.right]
-  or c, DIRTY_PLEFT
+  or c, dirty_PLEFT
   jmp [.mark]
 .right:
-  or c, DIRTY_PRIGHT
+  or c, dirty_PRIGHT
 .mark:
-  sw [DIRTY], c
+  sw [dirty], c
 .done:
   popa
   ret
@@ -555,25 +438,25 @@ move_ball:
   mw z, 0
 
   ; try movement by velocity
-  lw a, [(PBALL + 0)]
-  lw b, [(PBALL + 1)]
-  lw c, [(VBALL + 0)]
-  lw d, [(VBALL + 1)]
-  sw [(PLBALL + 0)], a
-  sw [(PLBALL + 1)], b
+  lw a, [(pball + 0)]
+  lw b, [(pball + 1)]
+  lw c, [(vball + 0)]
+  lw d, [(vball + 1)]
+  sw [(plball + 0)], a
+  sw [(plball + 1)], b
   add a, c
   add b, d
 
 .left_paddle:
   jgt a, (12 + BALL_SIZE), [.right_paddle]
   jlt a, (12 + BALL_SIZE - 4), [.right_paddle]
-  lw c, [(PADDLES + 0)]
+  lw c, [(paddles + 0)]
   mw d, c
   add d, PADDLE_HEIGHT
   jlt b, c, [.right_paddle]
   jgt b, d, [.right_paddle]
   mw z, MB_INV_X
-  lw c, [KEYS]
+  lw c, [keys]
   and c, (KEY_LU | KEY_LD)
   jz c, [.left_noinv]
   jeq c, KEY_LD, [.left_down]
@@ -582,7 +465,7 @@ move_ball:
 .left_down:
   mw c, 1
 .left_check:
-  lw d, [(VBALL + 1)]
+  lw d, [(vball + 1)]
   jeq c, d, [.left_noinv]
   or z, MB_INV_Y
 .left_noinv:
@@ -590,13 +473,13 @@ move_ball:
 .right_paddle:
   jlt a, (SCREEN_WIDTH - 16 - BALL_SIZE), [.top_bound]
   jgt a, (SCREEN_WIDTH - 16 - BALL_SIZE + 4), [.top_bound]
-  lw c, [(PADDLES + 1)]
+  lw c, [(paddles + 1)]
   mw d, c
   add d, PADDLE_HEIGHT
   jlt b, c, [.top_bound]
   jgt b, d, [.top_bound]
   mw z, MB_INV_X
-  lw c, [KEYS]
+  lw c, [keys]
   and c, (KEY_RU | KEY_RD)
   jz c, [.right_noinv]
   jeq c, KEY_RD, [.right_down]
@@ -605,7 +488,7 @@ move_ball:
 .right_down:
   mw c, 1
 .right_check:
-  lw d, [(VBALL + 1)]
+  lw d, [(vball + 1)]
   jeq c, d, [.right_noinv]
   or z, MB_INV_Y
 .right_noinv:
@@ -620,16 +503,16 @@ move_ball:
   jmp [.apply]
 .left_bound:
   jne a, 0, [.right_bound]
-  lw a, [(SCORES + 1)]
+  lw a, [(scores + 1)]
   inc a
-  sw [(SCORES + 1)], a
+  sw [(scores + 1)], a
   mw z, MB_RESET_L
   jmp [.apply]
 .right_bound:
   jne a, (SCREEN_WIDTH - BALL_SIZE), [.apply]
-  lw a, [(SCORES + 0)]
+  lw a, [(scores + 0)]
   inc a
-  sw [(SCORES + 0)], a
+  sw [(scores + 0)], a
   mw z, MB_RESET_R
 .apply:
   jz z, [.store]
@@ -647,37 +530,30 @@ move_ball:
 .invert:
   ; invert according to z
   jmn z, MB_INV_X, [.invert_y]
-  lw a, [(VBALL + 0)]
+  lw a, [(vball + 0)]
   mw b, 0
   sub b, a
-  sw [(VBALL + 0)], b
+  sw [(vball + 0)], b
 .invert_y:
   jmn z, MB_INV_Y, [.done]
-  lw a, [(VBALL + 1)]
+  lw a, [(vball + 1)]
   mw b, 0
   sub b, a
-  sw [(VBALL + 1)], b
+  sw [(vball + 1)], b
   jmp [.done]
 .store:
-  sw [(PBALL + 0)], a
-  sw [(PBALL + 1)], b
+  sw [(pball + 0)], a
+  sw [(pball + 1)], b
 .done:
   pop d, c, b, a
   ret
 
 main:
-  ; stack pointer
-  lda [ADDR_STACK]
-  sw [ADDR_SPL], l
-  sw [ADDR_SPH], h
-
   ; memory bank -> screen
-  lda 0x0001
-  sw [ADDR_MBL], l
-  sw [ADDR_MBH], h
+  sw [ADDR_MB], 1
 
   ; seed random number generator
-  sw [RANDN], 13
+  sw [randn], 13
 
   call [reset]
 
@@ -693,7 +569,7 @@ main:
   mw z, 0
 
   ; paddle movement
-  lw c, [KEYS]
+  lw c, [keys]
 .move_lu:
   mw a, PLEFT
   jmn c, KEY_LU, [.move_ld]
@@ -724,4 +600,4 @@ main:
   call [dirty_ball]
   call [draw]
   jmp [.loop]
-  halt
+  ret

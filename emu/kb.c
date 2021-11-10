@@ -13,7 +13,7 @@ void kb_set_data(struct JDH8 *state, struct Device *dev, u8 d)  {
 
 void kb_init(struct JDH8 *state, struct Device *dev) {
     *dev = (struct Device) {
-        .id = 3,
+        .id = 2,
         .send = kb_send,
         .receive = NULL,
         .tick = NULL,

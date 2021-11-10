@@ -32,6 +32,22 @@
         BUFADDP((_b), (_p));                                        \
     } while (0);
 
+#define BUFPUSH(_b, _e) BUFADD((_b), (_e))
+
+#define BUFPUSHP(_b, _p) BUFADDP((_b), (_p))
+
+#define BUFPOP(_b) ({                                               \
+        if ((_b).size == 0) warn("Empty buffer %p", &(_b));         \
+        (_b).buffer[--(_b).size];                                   \
+    })
+
+#define BUFPEEKP(_b) ({                                             \
+        if ((_b).size == 0) warn("Empty buffer %p", &(_b));         \
+        &(_b).buffer[(_b).size - 1];                                \
+    })
+
+#define BUFPEEK(_b) (*BUFPEEKP((_b)))
+
 // value for Context::org indicating not set in program text
 #define ORG_UNSET ((u16) 0xFFFF)
 
@@ -49,7 +65,10 @@ struct Input {
 // token flags
 enum TokenFlags {
     // indicates a symbol (label) is a sublabel
-    TF_SUB = 0
+    TF_SUB = 0,
+
+    // indicates a token should be ignored
+    TF_IGNORE = 1
 };
 
 #define A_IMM8_REG (A_IMM8 | A_REG)
@@ -133,6 +152,15 @@ struct Context {
         u8 *buffer;
         usize size, capacity, capacity_min;
     } out;
+
+    // preprocessor ifs
+    struct {
+#define IFF_SUCCESS         1
+#define IFF_FAILURE         2
+#define IFF_PARENT_FAILURE  3
+        u8 *buffer;
+        usize size, capacity, capacity_min;
+    } ifs;
 
     // origin of output
     u16 org;

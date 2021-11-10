@@ -1,6 +1,7 @@
 asm/builtin_macros.c
 .DS_Store
 out.bin*
+compile_flags.txt
 
 # binaries
 bin/

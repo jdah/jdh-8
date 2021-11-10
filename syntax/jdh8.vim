@@ -22,7 +22,7 @@ syn region jdhString start='"' end='"'
 syn region jdhAddr start='\[' end='\]' contains=jdhMacroArg,jdhAddrLabel
 
 syn match jdhLabelName "^[a-zA-Z0-9_\.]\+:\=" contained
-syn match jdhAddrLabel '\<[a-zA-Z0-9\._]\+\>' contained
+syn match jdhAddrLabel '[a-zA-Z0-9_\.]\+' contained
 
 let b:current_syntax = "jdh8"
 hi def link jdhSpecial Special
@@ -31,9 +31,9 @@ hi def link jdhComment Comment
 hi def link jdhLabelName Label
 hi def link jdhAddrLabel Label
 hi def link jdhDirective Macro
-hi def link jdhOp Keyword
-hi def link jdhMicroOp Keyword
+hi def link jdhOp Function
+hi def link jdhMicroOp Function
 hi def link jdhMacroArg Special
-hi def link jdhReg Keyword
+hi def link jdhReg Identifier
 hi def link jdhNumber Number
 hi def link jdhString String

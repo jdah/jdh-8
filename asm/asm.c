@@ -511,7 +511,7 @@ static void add_patch(struct Context *ctx, struct Token *symbol) {
 
     p->label = parent;
     p->symbol = symbol;
-    p->location = location(ctx);
+    p->location = ctx->out.size;
     p->next = ctx->patches;
     ctx->patches = p;
     BUFADD(ctx->out, 0xF0);
@@ -652,6 +652,15 @@ static void lex_line(struct Context *ctx, struct Token *first) {
 
 // parses and emits the specified token stream
 static struct Token *parse(struct Context *ctx, struct Token *first) {
+    while (first && (first->flags & TF_IGNORE)) {
+        asmdbg(ctx, first, "Ignoring token");
+        first = first->next;
+    }
+
+    if (!first) {
+        return NULL;
+    }
+
     if (first->kind == TK_EOL) {
         return first->next;
     }
@@ -896,7 +905,7 @@ int main(int argc, const char *argv[]) {
         for (usize i = 0; i < 2; i++) {
             char name[1024];
             int n = snprintf(name, sizeof(name), "%s.%" PRIu64, outfile, i);
-            assert(n >= 0 && n < sizeof(name));
+            assert(n >= 0 && n < (int) sizeof(name));
             FILE *out = fopen(name, "w+");
             assert(out);
 

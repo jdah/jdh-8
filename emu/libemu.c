@@ -16,21 +16,21 @@
   #define MONO_CLOCK _CLOCK_MONOTONIC
 #endif
 
-#define NOW() __extension__({                               \
-        struct timespec ts;                                 \
-        assert(!clock_gettime(MONO_CLOCK, &ts));            \
-        ((ts.tv_sec * NS_PER_SECOND) + ts.tv_nsec);         \
+#define NOW() __extension__({                                                  \
+        struct timespec ts;                                                    \
+        assert(!clock_gettime(MONO_CLOCK, &ts));                               \
+        ((ts.tv_sec * NS_PER_SECOND) + ts.tv_nsec);                            \
     })
 
-#define SLEEP(ns) __extension__({                           \
-        const u64 n = (ns);                                 \
-        if (n > 0) {                                        \
-            struct timespec req, rem;                       \
-            req.tv_sec = 0;                                 \
-            req.tv_nsec = ns;                               \
-            nanosleep(&req, &rem);                          \
-            ((rem.tv_sec * NS_PER_SECOND) + rem.tv_nsec);   \
-        } else { 0; }                                       \
+#define SLEEP(ns) __extension__({                                              \
+        const u64 n = (ns);                                                    \
+        if (n > 0) {                                                           \
+            struct timespec req, rem;                                          \
+            req.tv_sec = 0;                                                    \
+            req.tv_nsec = ns;                                                  \
+            nanosleep(&req, &rem);                                             \
+            ((rem.tv_sec * NS_PER_SECOND) + rem.tv_nsec);                      \
+        } else { 0; }                                                          \
     })
 
 // max speed 128 mhz
@@ -292,19 +292,19 @@ void step(struct JDH8 *state) {
     enum Instruction ins = (pc0 & 0xF0) >> 4;
     u16 hl;
 
-#define IMM8_REG() __extension__({                          \
-        pc1 = peek(state, state->special.pc++);             \
-        (pc0 & 0x8) ? state->registers.raw[pc1 & 0x7] : pc1;\
+#define IMM8_REG() __extension__({                                             \
+        pc1 = peek(state, state->special.pc++);                                \
+        (pc0 & 0x8) ? state->registers.raw[pc1 & 0x7] : pc1;                   \
     })
 
-#define IMM8_PC0_REG()                      \
-    ((pc0 & 0x08) ?                         \
-        state->registers.raw[pc0 & 0x7] :   \
+#define IMM8_PC0_REG()                                                         \
+    ((pc0 & 0x08) ?                                                            \
+        state->registers.raw[pc0 & 0x7] :                                      \
         peek(state, state->special.pc++))
 
-#define IMM16() (                                   \
-    ((u16) peek(state, state->special.pc++)) |      \
-    (((u16) peek(state, state->special.pc++)) << 8))\
+#define IMM16() (                                                              \
+    ((u16) peek(state, state->special.pc++)) |                                 \
+    (((u16) peek(state, state->special.pc++)) << 8))                           \
 
     switch (ins) {
         case I_MW:

@@ -13,7 +13,7 @@ ifneq ($(OS),Windows_NT)
 	LD=clang
 	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
-	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments
+	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments -Wno-gnu-statement-expression
 	LDFLAGS=
 
 	EMULD=-lreadline -l$(SDL_NAME)2 -lpthread
@@ -34,6 +34,7 @@ else
 	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
 	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
 	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
+	CCFLAGS+=-Wno-gnu-statement-expression
 	LDFLAGS=
 	EMULD=-lsdl2main -lsdl2
 	ASMLD=

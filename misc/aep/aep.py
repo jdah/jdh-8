@@ -233,7 +233,6 @@ while True:
 
         pixels = list(im.getdata())
 
-        # assemble data: each line starts at 6th byte out of 32
         data = []
 
         for j in range(0, 240):

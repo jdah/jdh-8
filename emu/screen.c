@@ -15,8 +15,10 @@
 #define WINDOW_WIDTH    640
 #define WINDOW_HEIGHT   480
 
-#define SCREEN_WIDTH    160
-#define SCREEN_HEIGHT   120
+#define SCANLINE_WIDTH  256
+#define SCREEN_WIDTH    208
+#define SCREEN_HEIGHT   240
+#define SCANLINE_OFFSET (4 * 8)
 
 // shared global
 static struct {
@@ -86,10 +88,12 @@ static void fchild(struct Device *dev) {
         // convert memory bank into texture data
         for (usize y = 0; y < SCREEN_HEIGHT; y++) {
             for (usize x = 0; x < SCREEN_WIDTH; x++) {
+                const usize i =
+                    (y * (SCANLINE_WIDTH / 8))
+                        + ((x / 8) + (SCANLINE_OFFSET / 8));
                 data[y][x] =
-                    (((((u8 *) screen.bank)[(y * (SCREEN_WIDTH / 8)) + (x / 8)]) >>
-                        (x % 8)) & 0x01) ?
-                    0xFFFFFFFF : 0x00000000;
+                    (((((u8 *) screen.bank)[i]) >> (x % 8)) & 0x01)
+                        ? 0xFFFFFFFF : 0x00000000;
             }
         }
 
@@ -99,16 +103,22 @@ static void fchild(struct Device *dev) {
         SDL_RenderCopy(
             renderer, texture,
             &((SDL_Rect) { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }),
-            &((SDL_Rect) { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT })
-        );
+            &((SDL_Rect) {
+                (WINDOW_WIDTH - (SCREEN_WIDTH * 2)) / 2,
+                (WINDOW_HEIGHT - (SCREEN_HEIGHT * 2)) / 2,
+                SCREEN_WIDTH * 2,
+                SCREEN_HEIGHT * 2 }));
         SDL_RenderPresent(renderer);
         SDL_UpdateWindowSurface(window);
+
+        // TODO: find a better framerate cap mechanism
+        SDL_Delay(16);
     }
 }
 
 void screen_init(struct JDH8 *state, struct Device *dev) {
     *dev = (struct Device) {
-        .id = 2,
+        .id = 64,
         .send = screen_send,
         .receive = screen_receive,
         .tick = screen_tick,

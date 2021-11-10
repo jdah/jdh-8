@@ -92,6 +92,7 @@ char *token_between(
         }
 
         lens[i] = t->len + j;
+        len += lens[i];
         i++;
         t = t->next;
     }
@@ -166,8 +167,15 @@ static struct Token *lex_push(
     token.input = ctx->input;
     token.line = ctx->input->line;
     token.line_no = ctx->input->line_no;
-    token.flags = 0;
+    token.flags =
+        (ctx->ifs.size == 0 || (BUFPEEK(ctx->ifs) == IFF_SUCCESS))
+            ? 0 : (1 << TF_IGNORE);
     *current->next = token;
+
+    if (token.flags & TF_IGNORE) {
+        asmdbg(ctx, current->next, "Pushed ignore token");
+    }
+
     return current->next;
 }
 

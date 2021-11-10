@@ -29,6 +29,9 @@ static bool stop_simulation(struct JDH8 *state) {
 }
 
 static int run(struct JDH8 *state, const char *speed, char *out, usize n) {
+    // un-halt
+    state->status = BIT_SET(state->status, S_HALT, 0);
+
     u64 hz = 16384;
 
     if (speed != NULL) {
