@@ -8,16 +8,16 @@
 set_pixel:
   pusha
 
-  ; take x from screen space -> vram space
-  add a, SCANLINE_OFFSET
-
   mw d, a
   mw z, c
 
-  ; [ab] -> screen byte
+  ; b already contains y
+  ; [ab] -> scanline start
   mw a, 0
   mw c, SCANLINE_WIDTH_BYTES
   call [mul16_8]
+
+  ; offset into VRAM
   add16 a, b, ADDR_BANK
 
   ; x >> 3 for byte
@@ -28,7 +28,11 @@ set_pixel:
   mw c, a
   pop b, a
 
+  ; add byte offset to scanline pointer
   add16 a, b, c
+
+  ; add scanline offset
+  add16 a, b, SCANLINE_OFFSET_BYTES
 
   ; 1 << (d & 0x7) is pixel mask
   push a, b
@@ -89,7 +93,7 @@ draw_char:
   sw c, d, f
   add16 a, b, 1
   add16 c, d, SCANLINE_WIDTH_BYTES
-  cdec z
+  dec z
   jnz z, [.loop]
 .done:
   popa

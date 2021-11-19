@@ -6,6 +6,7 @@ osmain:
   sw [ADDR_SPH], 0xFE
   sw [ADDR_MB], 1
   sw [(ADDR_BANK + 4)], 0xFF
+  jmp [ADDR_RAM]
   call [ADDR_RAM]
 .loop:
   jmp [.loop]

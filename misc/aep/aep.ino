@@ -132,7 +132,7 @@ void setup() {
   digitalWrite(PIN_NWE, HIGH);
 
   while (Serial.available()) {
-    Serial.read();
+    read_wait();
   }
 
   // write startup code (0xAA)
@@ -143,24 +143,30 @@ void setup() {
   Serial.write((uint8_t) 0xFF); \
   Serial.flush();               \
 
+uint8_t read_wait() {
+    int res;
+    while ((res = Serial.read()) == -1);
+    return (uint8_t) res;
+}
+
 void loop() {
   while (Serial.available() < 3) {
   }
 
-  uint8_t cmd = Serial.read();
-  uint16_t cmdlen = ((uint16_t) Serial.read()) | (((uint16_t) Serial.read()) << 8);
+  uint8_t cmd = read_wait();
+  uint16_t cmdlen = ((uint16_t) read_wait()) | (((uint16_t) read_wait()) << 8);
 
   // wait for at least cmdlen - 3 more bytes
-  while (Serial.available() < (cmdlen - 3)) {
-    delay(10);
-  }
+//  while (Serial.available() < (cmdlen - 3)) {
+//    delay(10);
+//  }
 
   if (cmd == 1 /* READY */) {
     EOC();
   } else if (cmd == 2 /* READ */) {
     uint16_t
-      addr = ((uint16_t) Serial.read()) | (((uint16_t) Serial.read()) << 8),
-      len = ((uint16_t) Serial.read()) | (((uint16_t) Serial.read()) << 8);
+      addr = ((uint16_t) read_wait()) | (((uint16_t) read_wait()) << 8),
+      len = ((uint16_t) read_wait()) | (((uint16_t) read_wait()) << 8);
 
     while (len != 0) {
       Serial.write((uint8_t) e_read(addr++));
@@ -170,13 +176,13 @@ void loop() {
     EOC();
   } else if (cmd == 3 /* WRITE */) {
     uint16_t
-      addr = ((uint16_t) Serial.read()) | (((uint16_t) Serial.read()) << 8),
-      len  = ((uint16_t) Serial.read()) | (((uint16_t) Serial.read()) << 8);
+      addr = ((uint16_t) read_wait()) | (((uint16_t) read_wait()) << 8),
+      len  = ((uint16_t) read_wait()) | (((uint16_t) read_wait()) << 8);
 
     uint16_t i = 0;
 
     while (i != len) {
-      write_buffer[i++] = Serial.read();
+      write_buffer[i++] = read_wait();
     }
 
     e_write_multi(addr, (uint8_t *) write_buffer, len);

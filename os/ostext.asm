@@ -2,7 +2,7 @@
 ; THIS IS THE MAIN ASSEMBLY FILE FOR THE JDH-8 ROM
 
 ; corresponds to OSCALL_OFFSET in oscall.asm
-jmp [osmain]
+jmp [ostest]
 
 ; 5 blank bytes for empty space in jump table
 ; a jump to one of these will fault/restart the OS
@@ -25,8 +25,8 @@ blank
 ; === UTIL.ASM ===
 jmp [strlen]
 jmp [memcpy]
+jmp [memcpy16]
 jmp [memset]
-blank
 blank
 blank
 blank
@@ -56,4 +56,5 @@ blank
 @include "os/lib/font.asm"
 @include "os/lib/gfx.asm"
 
+@include "os/ostest.asm"
 @include "os/os.asm"

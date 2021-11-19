@@ -273,7 +273,13 @@ int load(struct JDH8* state, const char *filename, u16 addr) {
     if (!buf || fread(buf, len, 1, f) != 1) {
         return -1;
     }
+
+    // temporarily disable write protection
+    const bool wp = state->write_protect;
+    state->write_protect = false;
     emu_memcpy(state, addr, buf, len);
+    state->write_protect = wp;
+
     fclose(f);
     free(buf);
     return 0;

@@ -38,26 +38,6 @@ shl16:
 ; b: number of times to shift
 shr:
   push b, c
-
-  ; c = 16 - b
-  mw h, 16
-  sub h, b
-  mw c, h
-
-  ; b = a, a = 0
-  mw b, a
-  mw a, 0
-  call [shl16]
-
-  ; high word contains right shifted number
-
-  pop b, c
-
-; SHIFT RIGHT
-; a: number to shift
-; b: number of times to shift
-__shr:
-  push b, c
   jz b, [.done]
   mw c, a
   mw a, 0
@@ -90,7 +70,7 @@ __shr:
   add a, 1
   sub c, 2
 .next:
-  cdec b
+  dec b
   jnz b, [.shift]
 .done:
   pop c, b

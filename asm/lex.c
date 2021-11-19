@@ -151,8 +151,13 @@ static bool expand_define(struct Context *ctx, struct Token *token) {
         "Expanding %s to %s in %s:%lu\n",
         data, d->value, token->input->name, token->line_no
     );
-    assert(!push_input_buffer(ctx, "(define)", d->value));
-    return true;
+
+    if (d->value) {
+        assert(!push_input_buffer(ctx, "(define)", d->value));
+        return true;
+    }
+
+    return false;
 }
 
 // pushes a token to the token stream, returning the latest in the stream

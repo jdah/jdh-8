@@ -71,7 +71,7 @@ def rom_write(addr, data):
     if eoc != EOC:
         raise Exception('Invalid EOC 0x{:02X}'.format(eoc))
 
-def rom_write_chunked(addr, data, chunk_size=48):
+def rom_write_chunked(addr, data, chunk_size=16):
     chunks = [data[x:x+chunk_size] for x in range(0, len(data), chunk_size)]
 
     for i, chunk in enumerate(chunks):
@@ -201,11 +201,8 @@ while True:
             print('Too large to write')
             continue
 
-        if len(data) > 48:
-            for base, last in rom_write_chunked(addr, data):
-                sys.stdout.write('[0x{:04X}..0x{:04X}] ... OK\n'.format(base, last))
-        else:
-            rom_write(addr, data)
+        for base, last in rom_write_chunked(addr, data):
+            sys.stdout.write('[0x{:04X}..0x{:04X}] ... OK\n'.format(base, last))
 
         # verify
         if len(tokens) == 4 and tokens[3].lower() in ['true', '1', 't', 'y']:

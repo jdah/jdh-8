@@ -148,13 +148,14 @@ static struct Token *duplicate_macro(struct Op *op) {
 }
 
 struct Token *expand_macro(
-    struct Context *ctx,
-    struct Op *op,
-    struct Token *start,
-    struct Token *end,
-    enum Arg *args,
-    struct Token **arg_tokens,
-    usize num_args) {
+        struct Context *ctx,
+        struct Op *op,
+        struct Token *start,
+        struct Token *end,
+        enum Arg *args,
+        struct Token **arg_tokens,
+        usize num_args
+    ) {
     asmdbg(ctx, start, "Expanding macro %s", op->name);
 
     // duplicate macro tokens

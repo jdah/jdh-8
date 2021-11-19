@@ -41,4 +41,21 @@
 @define SCREEN_WIDTH_BYTES      (SCREEN_WIDTH / 8)
 @define SCREEN_HEIGHT_BYTES     (SCREEN_HEIGHT / 8)
 
+; TEMPORARY DATA CONSTANTS
+@define TEMP_OFFSET (0xFD00)
+
+@define T0 (TEMP_OFFSET + 0)
+@define T1 (TEMP_OFFSET + 1)
+@define T2 (TEMP_OFFSET + 2)
+@define T3 (TEMP_OFFSET + 3)
+@define T4 (TEMP_OFFSET + 4)
+@define T5 (TEMP_OFFSET + 5)
+@define T6 (TEMP_OFFSET + 6)
+@define T7 (TEMP_OFFSET + 7)
+
+@define D0 (TEMP_OFFSET + 0)
+@define D1 (TEMP_OFFSET + 2)
+@define D2 (TEMP_OFFSET + 4)
+@define D3 (TEMP_OFFSET + 6)
+
 @endif

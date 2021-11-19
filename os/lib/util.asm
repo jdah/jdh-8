@@ -25,8 +25,8 @@ memcpy:
   pusha
   jz z, [.done]
 .loop:
-  lw f, a, b
-  sw c, d, f
+  lw f, c, d
+  sw a, b, f
   add16 a, b, 1
   add16 c, d, 1
   dec z
@@ -38,10 +38,28 @@ memcpy:
 ; copies memory (16-bit size)
 ; a, b: dst
 ; c, d: src
-; [SP - 2][SP - 1]: len
+; D0: len
 memcpy16:
   pusha
-
+.loop:
+  push a
+  lw a, [(D0 + 1)]
+  jz a, [.less_than_256]
+  push b
+  lw b, [(D0 + 0)]
+  mw z, 0xFF
+  clb
+  sub16 a, b, 0xFF
+  sw16 [D0], a, b
+  pop b, a
+  call [memcpy]
+  add16 a, b, 0xFF
+  add16 c, d, 0xFF
+  jmp [.loop]
+.less_than_256:
+  pop a
+  lw z, [(D0 + 0)]
+  call [memcpy]
   popa
   ret
 

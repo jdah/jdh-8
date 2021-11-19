@@ -20,8 +20,8 @@
 ; === UTIl.ASM ===
 @define strlen      ((0x08 * OSCALL_SIZE) + OSCALL_OFFSET)
 @define memcpy      ((0x09 * OSCALL_SIZE) + OSCALL_OFFSET)
-@define memset      ((0x0A * OSCALL_SIZE) + OSCALL_OFFSET)
-; 0x0B
+@define memcpy16    ((0x0A * OSCALL_SIZE) + OSCALL_OFFSET)
+@define memset      ((0x0B * OSCALL_SIZE) + OSCALL_OFFSET)
 ; 0x0C
 ; 0x0D
 ; 0x0E

@@ -247,6 +247,10 @@ void command(struct JDH8 *state, const char *text, char *out, usize n) {
 int main(int argc, const char *argv[]) {
     struct JDH8 state;
     memset(&state, 0, sizeof(state));
+
+    // disallow writes to ROM
+    state.write_protect = true;
+
     mod_init();
 
     bool loaded = false;

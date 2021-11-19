@@ -16,10 +16,10 @@ struct MicroOp {
 
 struct MicroOp MICRO_OPS[] = {
     // TYPE A MICROCODE
-    MOP(ERAM, MTA, 0),
+    MOP(EMEM, MTA, 0),
     MOP(ASP, MTA, 1),
     MOP(AIMM, MTA, 2),
-    MOP(LRAM, MTA, 3),
+    MOP(LMEM, MTA, 3),
     MOP(SPINC, MTA, 4),
     MOP(SPDEC, MTA, 5),
     MOP(JNZ, MTA, 6),

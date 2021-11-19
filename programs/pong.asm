@@ -8,9 +8,6 @@
 @org ADDR_RAM
 
 ; sizes
-@define SCREEN_WIDTH  160
-@define SCREEN_HEIGHT 120
-
 @define PADDLE_HEIGHT 16
 @define BALL_SIZE     1
 
@@ -124,7 +121,7 @@ reset:
 .done:
   ; reset screen
   lda a, b, [ADDR_BANK]
-  lda c, d, [(SCREEN_HEIGHT * (SCREEN_WIDTH / 8))]
+  lda c, d, [(SCANLINE_WIDTH_BYTES * SCREEN_HEIGHT)]
   mw z, 0
   call [memset]
 
@@ -150,15 +147,15 @@ draw_paddle:
 
   ; [ab] -> first byte
   mw a, 0
-  mw b, (SCREEN_WIDTH / 8)
+  mw b, SCANLINE_WIDTH_BYTES
   call [mul16_8]
 
   ; add paddle offset
   jeq d, PRIGHT, [.right]
-  mw d, 1
+  mw d, (SCANLINE_OFFSET_BYTES + 1)
   jmp [.cont]
 .right:
-  mw d, ((SCREEN_WIDTH / 8) - 2)
+  mw d, ((SCANLINE_OFFSET_BYTES + SCREEN_WIDTH_BYTES) - 1)
 .cont:
   add16 a, b, d
 
@@ -174,13 +171,13 @@ draw_paddle:
   push z
   mw z, PADDLE_HEIGHT
 .add:
-  add16 c, d, (SCREEN_WIDTH / 8)
+  add16 c, d, SCANLINE_WIDTH_BYTES
   dec z
   jnz z, [.add]
   pop z
 .loop:
   sw a, b, z
-  add16 a, b, (SCREEN_WIDTH / 8)
+  add16 a, b, SCANLINE_WIDTH_BYTES
   eq16 a, b, c, d
   jz f, [.loop]
 .done:
@@ -190,7 +187,7 @@ draw_paddle:
 ; draws the border
 draw_border:
   pusha
-  lda a, b, (ADDR_BANK + (((SCREEN_WIDTH / 8) / 2) - 1))
+  lda a, b, (ADDR_BANK + (SCANLINE_WIDTH_BYTES / 2))
   mw c, 0
 .loop:
   mw z, c
@@ -205,7 +202,7 @@ draw_border:
   sw a, b, d
   dec16 a, b
 .next:
-  add16 a, b, ((SCREEN_WIDTH / 8) * 3)
+  add16 a, b, (SCANLINE_WIDTH_BYTES * 3)
   add c, 3
   jlt c, SCREEN_HEIGHT, [.loop]
 .done:
@@ -219,12 +216,12 @@ draw_scores:
 
   lw a, [(scores + 0)]
   add a, '0'
-  mw c, (((SCREEN_WIDTH / 8) / 2) - 2)
+  mw c, ((SCREEN_WIDTH_BYTES / 2) - 2)
   call [draw_char]
 
   lw a, [(scores + 1)]
   add a, '0'
-  mw c, (((SCREEN_WIDTH / 8) / 2) + 1)
+  mw c, ((SCREEN_WIDTH_BYTES / 2) + 1)
   call [draw_char]
 
   pop d, c, a
@@ -236,10 +233,10 @@ clear_scores:
   mw a, ' '
   mw d, 4
 
-  mw c, (((SCREEN_WIDTH / 8) / 2) - 2)
+  mw c, ((SCREEN_WIDTH_BYTES / 2) - 2)
   call [draw_char]
 
-  mw c, (((SCREEN_WIDTH / 8) / 2) + 1)
+  mw c, ((SCREEN_WIDTH_BYTES / 2) + 1)
   call [draw_char]
 
   pop d, c, a
@@ -471,8 +468,8 @@ move_ball:
 .left_noinv:
   jmp [.apply]
 .right_paddle:
-  jlt a, (SCREEN_WIDTH - 16 - BALL_SIZE), [.top_bound]
-  jgt a, (SCREEN_WIDTH - 16 - BALL_SIZE + 4), [.top_bound]
+  jlt a, (SCREEN_WIDTH - 8 - BALL_SIZE), [.top_bound]
+  jgt a, (SCREEN_WIDTH - 8 - BALL_SIZE + 4), [.top_bound]
   lw c, [(paddles + 1)]
   mw d, c
   add d, PADDLE_HEIGHT
@@ -565,7 +562,7 @@ main:
   mw c, 16
   call [mul16_8]
   inc z
-  jne z, 144, [.loop]
+  jne z, 255, [.loop]
   mw z, 0
 
   ; paddle movement

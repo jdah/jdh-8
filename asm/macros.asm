@@ -32,14 +32,14 @@ OUTB %i0, %i1:
 INC %r0:
     add %r0, 1
 
-; decrement
+; decrement, do not clear borrow
 @macro
-DEC %r0:
+FDEC %r0:
     sbb %r0, 1
 
 ; decrement, clear borrow first
 @macro
-CDEC %r0:
+DEC %r0:
     clb
     sbb %r0, 1
 
@@ -75,6 +75,24 @@ DEC16 %r0, %r1:
     clb
     sbb %r1, 1
     sbb %r0, 0
+
+; subtracts 8-bit register from 16-bit number
+@macro
+SUB16 %r0, %r1, %r2:
+    sbb %r1, %r2
+    sbb %r0, 0
+
+; subtracts 16-bit number from 16-bit number
+@macro
+SUB16 %r0, %r1, %r2, %r3:
+    sbb %r1, %r3
+    sbb %r0, %r2
+
+; subtracts 16-bit constant from 16-bit number
+@macro
+SUB16 %r0, %r1, %i2:
+    sbb %r1, ((%i2 > 0) & 0xFF)
+    sbb %r0, ((%i2 > 8) & 0xFF)
 
 ; adds 8-bit register to 16-bit number
 @macro
@@ -150,6 +168,32 @@ LDA %r0, %r1, [%i2]:
     lda [%i2]
     mw %r0, h
     mw %r1, l
+
+; 16-bit load word override
+@macro
+LW16 %r0, %r1, %a2:
+    lw %r1, [(%a2 + 0)]
+    lw %r0, [(%a2 + 1)]
+
+; 16-bit load word HL override
+@macro
+LW16 %r0, %r1:
+    lw %r1
+    inc16 h, l
+    lw %r0
+
+; 16-bit store word override
+@macro
+SW16 %a0, %r1, %r2:
+    sw [(%a0 + 0)], %r2
+    sw [(%a0 + 1)], %r1
+
+; 16-bit store word HL override
+@macro
+SW16 %r0, %r1:
+    sw %r1
+    inc16 h, l
+    sw %r0
 
 ; LW override which supports two register arguments as an address
 @macro

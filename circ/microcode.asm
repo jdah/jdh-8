@@ -12,29 +12,29 @@ mw:
 
 lw:
 .const:
-  aimm, ~sel, eram, lreg
+  aimm, ~sel, emem, lreg
 .reg:
-  ahl, ~sel, eram, lreg
+  ahl, ~sel, emem, lreg
 
 sw:
 .const:
-  aimm, ~sel, ereg, lram
+  aimm, ~sel, ereg, lmem
 .reg:
-  ahl, ~sel, ereg, lram
+  ahl, ~sel, ereg, lmem
 
 push:
 .const:
-  asp, eop1, lram
+  asp, eop1, lmem
   spdec
 .reg:
-  asp, ~sel, ereg, lram
+  asp, ~sel, ereg, lmem
   spdec
 
 pop:
 .const:
 .reg:
     spinc
-    asp, ~sel, eram, lreg
+    asp, ~sel, emem, lreg
 
 lda:
 .const:

@@ -66,3 +66,4 @@ cmp16:
   mw f, a
 
   pop b, a
+  ret

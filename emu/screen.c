@@ -61,9 +61,9 @@ static void screen_tick(struct JDH8 *state, struct Device *dev) {
             switch (e.type) {
                 case SDL_KEYDOWN:
                 case SDL_KEYUP:
-                    if (has_device(state, 3)) {
+                    if (has_device(state, 2)) {
                         kb_set_data(
-                            state, &state->devices[3],
+                            state, &state->devices[2],
                             (e.type == SDL_KEYUP ? 0x80 : 0x00) |
                                 e.key.keysym.scancode
                         );
