@@ -1,11 +1,13 @@
 # JDH-8
-An fully custom 8-bit minicomputer with a unique architecture and the express goal of playing PONG.
+An fully custom 8-bit minicomputer with a unique architecture.
 
+![BUILD SCREENSHOT](images/BUILD.png)
 ![PONG SCREENSHOT](images/PONG.png)
 
 The program above is running in the emulator, see [`programs/pong.asm`](programs/pong.asm) for the source.
 
-[See the video on the design](https://youtu.be/7A1SzIIKMho).
+[See the video on the design](https://youtu.be/7A1SzIIKMho). \
+[and the video on the build](https://youtu.be/vaGZapAGvwM).
 
 ## Machine Description
 
