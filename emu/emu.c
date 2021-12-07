@@ -14,6 +14,7 @@
 #endif
 
 #include "emu.h"
+#include "../common/jdh8util.h"
 
 // TODO: illegal instruction warnings
 
@@ -239,6 +240,11 @@ void command(struct JDH8 *state, const char *text, char *out, usize n) {
             !run(state, num_tokens == 2 ? tokens[1] : NULL, out, n),
             "Invalid run speed"
         );
+    } else if (!strcmp("INST", tokens[0])) {
+        cmdchk(num_tokens == 2, WRONG_ARGS);
+        u16 addr;
+        cmdchk(!strtou16(tokens[1], 0, &addr), WRONG_NUMBER);
+        asm2str(out, n, ppeek(state, addr), 0x10000 - addr);
     } else {
         snprintf(out, n, "Unrecognized command %s\n", tokens[0]);
     }

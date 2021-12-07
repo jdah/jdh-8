@@ -2612,19 +2612,19 @@ c7 8 87
       <a name="size" val="30"/>
     </comp>
     <comp lib="5" loc="(450,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6bb59e2"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@56e31243"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(490,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@760ebbab"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@30e173be"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(530,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4d796a1c"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@cd9191e"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(570,360)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@41113a48"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@cd83d25"/>
     </comp>
     <wire from="(130,110)" to="(190,110)"/>
     <wire from="(130,140)" to="(160,140)"/>
@@ -3801,19 +3801,19 @@ c004 4*4000 8081 8282 8108 c004 4*4000
       <a name="dataWidth" val="16"/>
     </comp>
     <comp lib="5" loc="(390,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@5200b849"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@74717841"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(430,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7e09b3c8"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6329d675"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(470,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@47cf8d18"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@583dd9f7"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(510,280)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3d0e521d"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1ab8d8ef"/>
     </comp>
     <wire from="(1000,560)" to="(1000,570)"/>
     <wire from="(1010,520)" to="(1010,530)"/>
@@ -20042,19 +20042,19 @@ c004 4*4000 8081 8282 8108 c004 4*4000
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
     <comp lib="5" loc="(390,1310)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6a9b6705"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@65f41889"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(430,1310)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@59bf0e6d"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4843e03c"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(470,1310)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6223ff0f"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7e076aa2"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(510,1310)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2df2c7ec"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@22a4ba2d"/>
     </comp>
     <comp lib="6" loc="(440,310)" name="74573">
       <a name="facing" val="south"/>
@@ -37181,19 +37181,19 @@ c0 4*40 80 82 81 c0 4*40
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
     <comp lib="5" loc="(1050,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1ce03e18"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@67d1cea0"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(1090,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3d0d978f"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@30449066"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(1130,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@402bcca6"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7553beb6"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(1170,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7bddbee8"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@72a117e3"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(1670,3200)" name="LED">
@@ -37252,64 +37252,70 @@ c0 4*40 80 82 81 c0 4*40
     <comp lib="5" loc="(1770,4020)" name="LED"/>
     <comp lib="5" loc="(1770,4080)" name="LED"/>
     <comp lib="5" loc="(260,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@66d04f75"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1b6c63d9"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(300,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@37300dcf"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@fbf1772"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(3840,380)" name="Button">
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
     <comp lib="5" loc="(400,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@29e0a973"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@67f1ae3d"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(440,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3fdc7859"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1d15b32f"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(540,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@5b133330"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@659f79ff"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(580,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6c7a13e8"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@12ecf6b9"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(730,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@40fd8425"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7886329f"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(770,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1c3f22d3"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@483a6a6b"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(810,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@5e7708d7"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@56f4a212"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="5" loc="(850,170)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@622eb5a2"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@23d8cf4b"/>
       <a name="labelvisible" val="true"/>
     </comp>
     <comp lib="6" loc="(1040,1130)" name="74151">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,1330)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,1610)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,1850)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,2090)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,2330)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,2920)" name="74573">
@@ -37327,6 +37333,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,3400)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,3640)" name="74573">
@@ -37335,6 +37342,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="label" val="op2"/>
     </comp>
     <comp lib="6" loc="(1040,3880)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1040,520)" name="7432">
@@ -37362,12 +37370,15 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,1610)" name="7404">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,1770)" name="74682">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,1990)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,2210)" name="74244">
@@ -37375,6 +37386,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,2920)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,310)" name="7432">
@@ -37382,12 +37394,15 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,3150)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,3380)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,3610)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1380,3830)" name="7430">
@@ -37419,18 +37434,23 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1720,1610)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1720,1830)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1720,2050)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1720,2270)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(1720,2500)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="mb"/>
     </comp>
@@ -37475,21 +37495,27 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,1150)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,1380)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,1620)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,1840)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,2060)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,2280)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,2500)" name="74573">
@@ -37501,9 +37527,11 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,2920)" name="74374">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,3160)" name="74374">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,3400)" name="7408">
@@ -37519,6 +37547,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,3940)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2060,600)" name="74573">
@@ -37534,20 +37563,25 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,1100)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="h"/>
     </comp>
     <comp lib="6" loc="(2400,1340)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="f"/>
     </comp>
     <comp lib="6" loc="(2400,1610)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,1830)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,2060)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,2280)" name="74193">
@@ -37556,10 +37590,12 @@ c0 4*40 80 82 81 c0 4*40
       <a name="label" val="pc0"/>
     </comp>
     <comp lib="6" loc="(2400,2480)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="pc1"/>
     </comp>
     <comp lib="6" loc="(2400,2670)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,2920)" name="74283">
@@ -37579,6 +37615,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,3720)" name="74138">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,620)" name="74573">
@@ -37586,6 +37623,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2400,860)" name="74573">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="l"/>
     </comp>
@@ -37598,29 +37636,37 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,1600)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,1830)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,2060)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,2280)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="pc2"/>
     </comp>
     <comp lib="6" loc="(2740,2480)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="pc3"/>
     </comp>
     <comp lib="6" loc="(2740,2670)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,2910)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,3140)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,320)" name="7432">
@@ -37636,9 +37682,11 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,3750)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,3980)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(2740,500)" name="7432">
@@ -37680,14 +37728,17 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3080,2270)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="sp0"/>
     </comp>
     <comp lib="6" loc="(3080,2470)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="sp1"/>
     </comp>
     <comp lib="6" loc="(3080,2670)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3080,3270)" name="7485">
@@ -37711,6 +37762,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3080,3970)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3080,500)" name="7408">
@@ -37736,6 +37788,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3410,3970)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3420,1100)" name="7421">
@@ -37759,6 +37812,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3420,2050)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3420,2270)" name="74193">
@@ -37767,10 +37821,12 @@ c0 4*40 80 82 81 c0 4*40
       <a name="label" val="sp2"/>
     </comp>
     <comp lib="6" loc="(3420,2470)" name="74193">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="sp3"/>
     </comp>
     <comp lib="6" loc="(3420,2670)" name="74244">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(3420,310)" name="74138">
@@ -37791,6 +37847,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,1030)" name="74161">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="TKC_1"/>
     </comp>
@@ -37799,21 +37856,27 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,1380)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,1610)" name="74682">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,1830)" name="74682">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,2050)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,2270)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,2490)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,2930)" name="7404">
@@ -37825,6 +37888,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,310)" name="74161">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="HSC_0"/>
     </comp>
@@ -37833,6 +37897,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,3450)" name="74238">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,3650)" name="74163">
@@ -37844,14 +37909,17 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(360,490)" name="74161">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="HSC_1"/>
     </comp>
     <comp lib="6" loc="(360,670)" name="74161">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="HSC_2"/>
     </comp>
     <comp lib="6" loc="(360,850)" name="74161">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="TKC_0"/>
     </comp>
@@ -37872,14 +37940,17 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(700,1060)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_33"/>
     </comp>
     <comp lib="6" loc="(700,1310)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_69"/>
     </comp>
     <comp lib="6" loc="(700,1610)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_6F"/>
     </comp>
@@ -37900,6 +37971,7 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(700,310)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_5"/>
     </comp>
@@ -37924,10 +37996,12 @@ c0 4*40 80 82 81 c0 4*40
       <a name="facing" val="south"/>
     </comp>
     <comp lib="6" loc="(700,560)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_09"/>
     </comp>
     <comp lib="6" loc="(700,810)" name="74688">
+      <a name="ShowInternalStructure" val="true"/>
       <a name="facing" val="south"/>
       <a name="label" val="EQ_54"/>
     </comp>

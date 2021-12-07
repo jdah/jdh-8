@@ -226,12 +226,12 @@ lw b, [0x0000]
 faileq 0x22, b, 0xEE ; jeq b, 0xEE, [fail]
 
 ; general purpose RAM
-sw [0xC001], a
-lw b, [0xC001]
+sw [0xF000], a
+lw b, [0xF000]
 failne 0x23, b, 0xEE ; jne b, 0xEE, [fail]
 
 mw a, 0xDD
-lda [0xC001]
+lda [0xF000]
 sw a
 lw b
 failne 0x24, b, 0xDD ; jne b, 0xDD, [fail]
@@ -254,14 +254,14 @@ lw b, [0x8080]
 failne 0x27, b, 0x77 ; jne b, 0x77, [fail]
 
 ; general purpose RAM, again, with banked RAM enabled
-; 0xC001 should still have 0xDD in it!
+; 0xF000 should still have 0xDD in it!
 
-lw b, [0xC001]
+lw b, [0xF000]
 failne 0x28, b, 0xDD ; jne b, 0xDD, [fail]
 
 ; try overwriting again
 mw a, 0x55
-lda [0xC001]
+lda [0xF000]
 sw a
 lw b
 failne 0x29, b, 0x55 ; jne b, 0x55, [fail]

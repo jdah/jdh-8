@@ -211,6 +211,11 @@ u16 pop16(struct JDH8 *state) {
 }
 
 u8 inb(struct JDH8 *state, u8 port) {
+    if (port >= 128) {
+        warn("Illegal port for INB: %u\n", port);
+        return 0;
+    }
+
     struct Device *dev;
 
     switch (port) {
@@ -234,6 +239,11 @@ u8 inb(struct JDH8 *state, u8 port) {
 }
 
 void outb(struct JDH8 *state, u8 port, u8 data) {
+    if (port >= 128) {
+        warn("Illegal port for OUTB: %u\n", port);
+        return;
+    }
+
     switch (port) {
         case P_STATUS_REGISTER:
             state->status = data;

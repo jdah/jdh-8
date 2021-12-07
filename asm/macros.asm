@@ -169,6 +169,12 @@ LDA %r0, %r1, [%i2]:
     mw %r0, h
     mw %r1, l
 
+; lda override with registers instead of constant
+@macro
+LDA %r0, %r1:
+    mw h, %r0
+    mw l, %r1
+
 ; 16-bit load word override
 @macro
 LW16 %r0, %r1, %a2:
@@ -187,6 +193,12 @@ LW16 %r0, %r1:
 SW16 %a0, %r1, %r2:
     sw [(%a0 + 0)], %r2
     sw [(%a0 + 1)], %r1
+
+; 16-bit store word immediate override
+@macro
+SW16 %a0, %i1:
+    sw [(%a0 + 0)], ((%i1 > 0) & 0xFF)
+    sw [(%a0 + 1)], ((%i1 > 8) & 0xFF)
 
 ; 16-bit store word HL override
 @macro

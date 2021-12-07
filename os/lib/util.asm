@@ -79,4 +79,3 @@ memset:
 .done:
   popa
   ret
-

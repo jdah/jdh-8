@@ -10,8 +10,8 @@
 ; === MATH.ASM ===
 @define mul         ((0x00 * OSCALL_SIZE) + OSCALL_OFFSET)
 @define mul16_8     ((0x01 * OSCALL_SIZE) + OSCALL_OFFSET)
-; 0x02
-; 0x03
+@define mul16       ((0x02 * OSCALL_SIZE) + OSCALL_OFFSET)
+@define cmp16       ((0x03 * OSCALL_SIZE) + OSCALL_OFFSET)
 ; 0x04
 ; 0x05
 ; 0x06
@@ -42,5 +42,15 @@
 ; 0x19
 ; 0x1A
 ; 0x1B
+
+; === TERM.ASM ===
+@define term_print      ((0x1C * OSCALL_SIZE) + OSCALL_OFFSET)
+@define term_print_str  ((0x1D * OSCALL_SIZE) + OSCALL_OFFSET)
+@define term_clear      ((0x1E * OSCALL_SIZE) + OSCALL_OFFSET)
+; 0x1F
+; 0x20
+; 0x21
+; 0x22
+; 0x23
 
 @endif

@@ -5,7 +5,6 @@
 ; a: first operand
 ; b: second operand
 mul:
-  clb
   push b, c
   mw c, b
   mw b, a
@@ -23,7 +22,6 @@ mul:
 ; a, b: first operand
 ; c: second operand
 mul16_8:
-  clb
   push c, d, z
   mw d, a
   mw z, b
@@ -38,7 +36,28 @@ mul16_8:
   pop z, d, c
   ret
 
+; multiply (16-bit x 16-bit)
+; a, b: first operand
+; c, d: second operand
+; D0: temporary variable storage
+mul16:
+  push c, d, z
+  eq16 c, d, 0
+  jeq [.done]
+  sw16 [D0], a, b
+  mw16 a, b, 0
+.loop:
+  lw16 z, f, [D0]
+  add16 a, b, z, f
+  dec16 c, d
+  eq16 c, d, 0
+  jne [.loop]
+.done:
+  pop z, d, c
+  ret
+
 ; compares two 16-bit numbers
+; NOTE: DOES NOT SET CARRY/BORROW BITS
 ; a, b: first operand
 ; c, d: second operand
 cmp16:

@@ -123,7 +123,7 @@ void e_dump() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   pinMode(PIN_NWE, OUTPUT);
   pinMode(PIN_SRCLK, OUTPUT);

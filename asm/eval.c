@@ -1,6 +1,8 @@
 #include "asm.h"
 
-static i64 eval_exp_op(struct Context *ctx, struct Token *op, i64 lhs, i64 rhs) {
+static i64 eval_exp_op(
+        struct Context *ctx, struct Token *op, i64 lhs, i64 rhs
+    ) {
     switch (op->kind) {
         case TK_MINUS:
             if (lhs == EVAL_EXP_UNDEFINED) {

@@ -8,7 +8,7 @@
     #include <sys/mman.h>
 #endif
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "emu.h"
 
@@ -128,7 +128,6 @@ void screen_init(struct JDH8 *state, struct Device *dev) {
 
     screen.bank = add_bank(state, 1);
     screen.stop = false;
-    memset(screen.bank, 0, 0x8000);
 
     assert(!SDL_Init(SDL_INIT_VIDEO));
     window = SDL_CreateWindow(

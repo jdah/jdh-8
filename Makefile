@@ -4,19 +4,20 @@ ifneq ($(OS),Windows_NT)
 	ARCH_LINUX := $(shell grep "Arch Linux" /etc/os-release 2>/dev/null)
 
 	ifeq ($(ARCH_LINUX),)
-		SDL_NAME=sdl
+		SDL_NAME = sdl
 	else
-		SDL_NAME=SDL
+		SDL_NAME = SDL
 	endif
 
 	CC=clang
 	LD=clang
-	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
-	CCFLAGS+=-Wno-pointer-arith -Wno-unused-parameter
-	CCFLAGS+=-Wno-gnu-zero-variadic-macro-arguments -Wno-gnu-statement-expression
-	LDFLAGS=
+	CCFLAGS  = -std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS += -Wno-pointer-arith -Wno-unused-parameter
+	CCFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-gnu-statement-expression
+	CCFLAGS += $(shell sdl2-config --cflags)
+	LDFLAGS  =
 
-	EMULD=-lreadline -l$(SDL_NAME)2 -lpthread
+	EMULD=-lreadline -lpthread $(shell sdl2-config --libs)
 	ASMLD=
 	TESTLD=
 
@@ -31,36 +32,37 @@ else
 	LIBPATH=C:/msys64/mingw64
 	SDL2CFG=$(C:/msys64/mingw64/bin/sdl-config --cflags --libs)
 
-	CCFLAGS=-std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
-	CCFLAGS+=-I$(LIBPATH)/include/ -v -Wno-pointer-arith
-	CCFLAGS+=-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
-	CCFLAGS+=-Wno-gnu-statement-expression
-	LDFLAGS=
-	EMULD=-lsdl2main -lsdl2
-	ASMLD=
-	TESTLD=
-	EMU_WIN_SRC=$(wildcard emu/win/*.c)
-	EMU_WIN_OBJ=$(EMU_WIN_SRC:.c=.o)
-	DIRCMD=if not exist bin mkdir bin
-	CLEAN=clean_win
+	CCFLAGS  = -std=c11 -O2 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
+	CCFLAGS += -I$(LIBPATH)/include/ -v -Wno-pointer-arith
+	CCFLAGS += -Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments
+	CCFLAGS += -Wno-gnu-statement-expression
+	LDFLAGS  =
+	EMULD    = -lsdl2main -lsdl2
+	ASMLD    =
+	TESTLD   =
+	EMU_WIN_SRC = $(wildcard emu/win/*.c)
+	EMU_WIN_OBJ = $(EMU_WIN_SRC:.c=.o)
+	DIRCMD 			= if not exist bin mkdir bin
+	CLEAN 			=	clean_win
 endif
 
-BUILTIN_MACROS_ASM=asm/macros.asm
-BUILTIN_MACROS_C=asm/builtin_macros.c
+BUILTIN_MACROS_ASM = asm/macros.asm
+BUILTIN_MACROS_C   = asm/builtin_macros.c
 
-EMU_SRC=$(wildcard emu/*.c)
-EMU_OBJ=$(EMU_SRC:.c=.o)
+EMU_SRC  = $(wildcard emu/*.c)
+EMU_OBJ  = $(EMU_SRC:.c=.o)
+EMU_OBJ += common/jdh8util.o
 
-ASM_SRC=$(wildcard asm/*.c)
-ASM_OBJ=$(ASM_SRC:.c=.o)
+ASM_SRC = $(wildcard asm/*.c)
+ASM_OBJ = $(ASM_SRC:.c=.o)
 
-TEST_SRC=$(wildcard test/*.c)
-TEST_OBJ=$(TEST_SRC:.c=.o)
-TEST_OBJ+=emu/libemu.o
+TEST_SRC  = $(wildcard test/*.c)
+TEST_OBJ  = $(TEST_SRC:.c=.o)
+TEST_OBJ += emu/libemu.o
 
-EMU=bin/emu
-ASM=bin/asm
-TEST=bin/test
+EMU 	= bin/emu
+ASM   = bin/asm
+TEST  = bin/test
 
 all: emu asm test
 
