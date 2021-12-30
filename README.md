@@ -34,7 +34,7 @@ A: ADC* reg, imm8/reg   -> reg = reg + imm8/reg + c
 B: AND  reg, imm8/reg   -> reg = reg & imm8/reg
 C: OR   reg, imm8/reg   -> reg = reg | imm8/reg
 D: NOR  reg, imm8/reg   -> reg = ~(reg | imm8/reg)
-E: CMP* reg, imm8/reg   -> reg = reg + imm8/reg
+E: CMP* reg, imm8/reg   -> f = compare reg, imm8/reg (see below)
 F: SBB* reg, imm8/reg   -> reg = reg - imm8/reg - b
 
 *these instructions load the carry/borrow bits in the (F)lags register
