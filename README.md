@@ -58,6 +58,9 @@ F (7): flags (LSB to MSB)
 
 See [the spec](SPEC.txt) for more information.
 
+## Schematic
+The schematic requires a modified version of Logisim Evolution to view, [see here](https://github.com/jdah/logisim-evolution). You will need to build it from source.
+
 ## Toolchain
 
 ### Compiling on POSIX systems
