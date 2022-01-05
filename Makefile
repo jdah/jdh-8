@@ -48,6 +48,7 @@ endif
 
 BUILTIN_MACROS_ASM = asm/macros.asm
 BUILTIN_MACROS_C   = asm/builtin_macros.c
+BUILTIN_MACROS_O   = $(BUILTIN_MACROS_C:.c=.o)
 
 EMU_SRC  = $(wildcard emu/*.c)
 EMU_OBJ  = $(EMU_SRC:.c=.o)
@@ -71,8 +72,10 @@ clean: $(CLEAN)
 clean_win:
 	if exist bin rmdir /s /q bin
 	del /S /Q *.o *.exe *.dll
+	del /S /Q $(BUILTIN_MACROS_C)
 
 clean_posix:
+	rm -f $(BUILTIN_MACROS_C)
 	rm -rf ./bin
 	rm -f ./**/*.o
 
@@ -87,6 +90,7 @@ emu: dirs $(EMU_OBJ) $(EMU_WIN_OBJ)
 
 builtin_macros:
 	$(XXD) -i $(BUILTIN_MACROS_ASM) > $(BUILTIN_MACROS_C)
+	$(CC) -o $(BUILTIN_MACROS_O) -c $(BUILTIN_MACROS_C) $(CCFLAGS)
 
 asm: dirs builtin_macros $(ASM_OBJ)
 	$(LD) -o $(ASM) $(ASMLD) $(LDFLAGS) $(filter %.o, $^) $(BUILTIN_MACROS_O)
