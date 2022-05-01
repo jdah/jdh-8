@@ -1,5 +1,5 @@
 # JDH-8
-An fully custom 8-bit minicomputer with a unique architecture.
+A fully custom 8-bit minicomputer with a unique architecture.
 
 ![BUILD SCREENSHOT](images/BUILD.png)
 ![PONG SCREENSHOT](images/PONG.png)
