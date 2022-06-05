@@ -6,14 +6,12 @@
 ; b: y
 ; c: value
 set_pixel:
-  push a, b
-  push c, d
-  push z
+  pusha
 
   ; calculate pixel address at VRAM
   ; 0x8004 + y * 32 + (x >> 3)
   mw z, c
-  pusha
+  push a
   mw d, b
   mw c, 0
   add a, a
@@ -58,9 +56,7 @@ set_pixel:
   ; write VRAM byte back
   sw c, d, b
 
-  pop z
-  pop d, c
-  pop b, a
+  popa
   ret
 
 ; draws a font glyph
