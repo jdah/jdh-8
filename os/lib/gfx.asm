@@ -6,53 +6,61 @@
 ; b: y
 ; c: value
 set_pixel:
-  pusha
+  push a, b
+  push c, d
+  push z
 
-  mw d, a
+  ; calculate pixel address at VRAM
+  ; 0x8004 + y * 32 + (x >> 3)
   mw z, c
+  pusha
+  mw d, b
+  mw c, 0
+  add a, a
+  adc d, d
+  adc c, c
+  add a, a
+  adc d, d
+  adc c, c
+  add a, a
+  adc d, d
+  adc c, c
+  add a, a
+  adc d, d
+  adc c, c
+  add a, a
+  adc d, d
+  adc c, c
+  add d, 4
+  adc c, 0x80
 
-  ; b already contains y
-  ; [ab] -> scanline start
-  mw a, 0
-  mw c, SCANLINE_WIDTH_BYTES
-  call [mul16_8]
-
-  ; offset into VRAM
-  add16 a, b, ADDR_BANK
-
-  ; x >> 3 for byte
-  push a, b
-  mw a, d
-  mw b, 3
-  call [shr]
-  mw c, a
-  pop b, a
-
-  ; add byte offset to scanline pointer
-  add16 a, b, c
-
-  ; add scanline offset
-  add16 a, b, SCANLINE_OFFSET_BYTES
-
-  ; 1 << (d & 0x7) is pixel mask
-  push a, b
-  and d, 0x7
+  ; calculate byte mask (pixel bit is set, other bits clear)
+  pop b
+  and b, 7
   mw a, 1
-  mw b, d
   call [shl]
-  mw d, a
-  pop b, a
 
-  lw c, a, b
+  ; load VRAM byte
+  lw b, c, d
+
+  ; set or clear pixel depending on value
   jnz z, [.fill]
-  not d
-  and c, d
-  jmp [.store]
+
+  ; clear pixel using inverted mask
+  xor a, 0xFF
+  and b, a
+  jmp [.write]
 .fill:
-  or c, d
-.store:
-  sw a, b, c
-  popa
+  ; set pixel using mask
+  or b, a
+
+.write:
+  ; write VRAM byte back
+  sw c, d, b
+
+  pop z
+  pop d, c
+  pop b, a
   ret
 
 ; draws a font glyph
